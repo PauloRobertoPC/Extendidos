@@ -5,4 +5,6 @@
 <p>Email: {{ user.email }}</p>
 <p>Matrícula: {{ user.student.registration }}</p>
 </div>
+
+<a href="{% url 'student_edit' user.pk %}">+ Edit Student</a>
 {% endblock content %}

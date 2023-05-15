@@ -1,5 +1,7 @@
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView
+from django.views.generic import DetailView
+from django.views.generic.edit import CreateView, UpdateView
+
 from .models import CustomUser
 from .forms import CustomStudentCreationForm, CustomOngCreationForm
 
@@ -20,3 +22,15 @@ class StudentDetailView(DetailView):
 class OngDetailView(DetailView):
     model = CustomUser
     template_name = "ong_detail.html"
+
+class StudentUpdateView(UpdateView):
+    model = CustomUser
+    template_name = "student_edit.html"
+    # fields = ["user.student.registration"]
+    fields = ["username", "email"]
+
+class OngUpdateView(UpdateView):
+    model = CustomUser
+    template_name = "ong_edit.html"
+    # fields = ["user.student.registration"]
+    fields = ["username", "email"]

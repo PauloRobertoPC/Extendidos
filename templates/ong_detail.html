@@ -5,4 +5,5 @@
 <p>Email: {{ user.email }}</p>
 <p>CNPJ: {{ user.ong.cnpj }}</p>
 </div>
+<a href="{% url 'ong_edit' user.pk %}">+ Edit Ong</a>
 {% endblock content %}
