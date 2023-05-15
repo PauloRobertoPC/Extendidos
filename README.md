@@ -25,6 +25,17 @@
 
 ## Run Server
 
+* Make Migration
+```bash
+    python manage.py makemigrations 
+```
+
+* Migrate
+```bash
+    python manage.py migrate 
+```
+
+* Running Server
 ```bash
     python manage.py runserver 
 ```

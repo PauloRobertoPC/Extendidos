@@ -2,11 +2,18 @@
 {% block title %}Home{% endblock title %}
 {% block content %}
 {% if user.is_authenticated %}
-Hi {{ user.username }}!
-<p><a href="{% url 'logout' %}">Log Out</a></p>
+    Hi {{ user.username }}, you are a 
+    {% if user.is_student %}
+        student!
+        <h2><a href="{% url 'student_detail' user.pk %}">Perfil</a></h2>
+    {% else %}
+        ONG!
+        <h2><a href="{% url 'ong_detail' user.pk %}">Perfil</a></h2>
+    {% endif %}
+    <p><a href="{% url 'logout' %}">Log Out</a></p>
 {% else %}
-<p>You are not logged in</p>
-<a href="{% url 'login' %}">Log In</a> |
-<a href="{% url 'signup' %}">Sign Up</a>
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">Log In</a> |
+    <a href="{% url 'signup' %}">Sign Up</a>
 {% endif %}
 {% endblock content %}

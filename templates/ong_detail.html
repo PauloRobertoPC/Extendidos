@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+<h2>{{ user.username }}</h2>
+<p>Email: {{ user.email }}</p>
+<p>CNPJ: {{ user.ong.cnpj }}</p>
+</div>
+{% endblock content %}
