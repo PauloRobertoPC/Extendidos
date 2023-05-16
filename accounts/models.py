@@ -2,18 +2,18 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.db import models
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 
 from .managers import CustomUserManager
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(unique=True, default="email@gmail.com")
+    email = models.EmailField(unique=True)
     username = models.CharField(max_length=100)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
 
-    description = models.TextField(default="Descrição sobre você...")
+    description = models.TextField()
     is_student = models.BooleanField(default=False)
     is_ong = models.BooleanField(default=False)
 
