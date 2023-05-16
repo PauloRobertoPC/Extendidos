@@ -1,8 +1,10 @@
 from django.urls import reverse_lazy
 from django.views.generic import DetailView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, FormView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django import forms
 
-from .models import CustomUser
+from .models import CustomUser, Student
 from .forms import CustomStudentCreationForm, CustomOngCreationForm
 
 class StudentSignUpView(CreateView):
@@ -23,14 +25,46 @@ class OngDetailView(DetailView):
     model = CustomUser
     template_name = "ong_detail.html"
 
-class StudentUpdateView(UpdateView):
+class StudentUpdateView(LoginRequiredMixin, UpdateView):
     model = CustomUser
-    template_name = "student_edit.html"
-    # fields = ["user.student.registration"]
-    fields = ["username", "email"]
+    template_name = 'student_edit.html'
+    fields = ['username', 'email'] # CustomUser fields that you wanna edit
+
+    # Student Fields that you wanna edit
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['registration'] = forms.CharField(
+            widget=forms.TextInput,
+            initial=self.object.student.registration,
+            label='Registration'
+        )
+        return form
+
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        student = user.student
+        student.registration = form.cleaned_data['registration']
+        student.save()
+        return super().form_valid(form)
 
 class OngUpdateView(UpdateView):
     model = CustomUser
     template_name = "ong_edit.html"
-    # fields = ["user.student.registration"]
-    fields = ["username", "email"]
+    fields = ["username", "email"] # CustomUser fields that you wanna edit
+
+    # ONG Fields that you wanna edit
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['cnpj'] = forms.CharField(
+            widget=forms.TextInput,
+            initial=self.object.ong.cnpj,
+            label='CNPJ'
+        )
+        return form
+
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        ong = user.ong
+        ong.cnpj = form.cleaned_data['cnpj']
+        ong.save()
+        return super().form_valid(form)
