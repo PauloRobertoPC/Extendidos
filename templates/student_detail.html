@@ -4,7 +4,9 @@
 <h2>{{ user.username }}</h2>
 <p>Email: {{ user.email }}</p>
 <p>Matrícula: {{ user.student.registration }}</p>
+<p>Descrição/Quem sou eu?: {{ user.description }}</p>
 </div>
 
 <a href="{% url 'student_edit' user.pk %}">+ Edit Student</a>
+<p><a href="{% url 'user_delete' user.pk %}">- Delete User</a></p>
 {% endblock content %}

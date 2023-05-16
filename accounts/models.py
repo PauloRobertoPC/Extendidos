@@ -13,6 +13,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
 
+    description = models.TextField(default="Descrição sobre você...")
     is_student = models.BooleanField(default=False)
     is_ong = models.BooleanField(default=False)
 

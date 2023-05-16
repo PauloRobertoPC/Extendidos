@@ -1,10 +1,10 @@
 from django.urls import reverse_lazy
 from django.views.generic import DetailView
-from django.views.generic.edit import CreateView, UpdateView, FormView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django import forms
 
-from .models import CustomUser, Student
+from .models import CustomUser
 from .forms import CustomStudentCreationForm, CustomOngCreationForm
 
 class StudentSignUpView(CreateView):
@@ -28,7 +28,7 @@ class OngDetailView(DetailView):
 class StudentUpdateView(LoginRequiredMixin, UpdateView):
     model = CustomUser
     template_name = 'student_edit.html'
-    fields = ['username', 'email'] # CustomUser fields that you wanna edit
+    fields = ['username', 'email', 'description'] # CustomUser fields that you wanna edit
 
     # Student Fields that you wanna edit
     def get_form(self, form_class=None):
@@ -50,7 +50,7 @@ class StudentUpdateView(LoginRequiredMixin, UpdateView):
 class OngUpdateView(UpdateView):
     model = CustomUser
     template_name = "ong_edit.html"
-    fields = ["username", "email"] # CustomUser fields that you wanna edit
+    fields = ["username", "email", 'description'] # CustomUser fields that you wanna edit
 
     # ONG Fields that you wanna edit
     def get_form(self, form_class=None):
@@ -68,3 +68,8 @@ class OngUpdateView(UpdateView):
         ong.cnpj = form.cleaned_data['cnpj']
         ong.save()
         return super().form_valid(form)
+
+class UserDeleteView(DeleteView):
+    model = CustomUser
+    template_name = "user_delete.html"
+    success_url = reverse_lazy("home")

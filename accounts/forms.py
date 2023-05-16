@@ -8,7 +8,7 @@ class CustomStudentCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = UserCreationForm.Meta.fields + ('email',)
+        fields = UserCreationForm.Meta.fields + ('email', 'description',)
 
     @transaction.atomic
     def save(self):
@@ -25,7 +25,7 @@ class CustomOngCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = UserCreationForm.Meta.fields + ('email',)
+        fields = UserCreationForm.Meta.fields + ('email', 'description',)
 
     @transaction.atomic
     def save(self):
