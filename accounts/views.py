@@ -6,6 +6,7 @@ from django import forms
 
 from .models import CustomUser
 from .forms import CustomStudentCreationForm, CustomOngCreationForm
+from .utils import universities
 
 class StudentSignUpView(CreateView):
     form_class = CustomStudentCreationForm
@@ -38,12 +39,18 @@ class StudentUpdateView(LoginRequiredMixin, UpdateView):
             initial=self.object.student.registration,
             label='Registration'
         )
+        form.fields['university'] = forms.ChoiceField(
+            choices=universities,
+            initial=self.object.student.university,
+            label='University'
+        )
         return form
 
     def form_valid(self, form):
         user = form.save(commit=False)
         student = user.student
         student.registration = form.cleaned_data['registration']
+        student.university = form.cleaned_data['university']
         student.save()
         return super().form_valid(form)
 

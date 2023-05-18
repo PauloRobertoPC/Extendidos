@@ -5,6 +5,7 @@ from django.db import models
 from django.urls import reverse_lazy
 
 from .managers import CustomUserManager
+from .utils import universities
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
@@ -31,6 +32,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 class Student(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     user.is_student = True
+    university = models.CharField(max_length=100, choices=universities, default="Universidade Federal do Ceará")
     registration = models.CharField(max_length=30, default='0')
 
 class Ong(models.Model):

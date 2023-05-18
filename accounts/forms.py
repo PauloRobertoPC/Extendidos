@@ -2,9 +2,11 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.db import transaction
 from .models import CustomUser, Student, Ong
+from .utils import universities
 
 class CustomStudentCreationForm(UserCreationForm):
     registration = forms.CharField(required=True)
+    university = forms.ChoiceField(required=True, choices=universities)
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser
@@ -17,6 +19,7 @@ class CustomStudentCreationForm(UserCreationForm):
         user.save()
         student = Student.objects.create(user=user)
         student.registration = self.cleaned_data.get('registration')
+        student.university = self.cleaned_data.get('university')
         student.save()
         return user
 
