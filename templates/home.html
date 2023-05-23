@@ -10,6 +10,7 @@
         ONG!
         <h2><a href="{% url 'ong_detail' user.pk %}">Perfil</a></h2>
     {% endif %}
+    <p><a href="{% url 'project_list' %}">Ver Projetos</a></p>
     <p><a href="{% url 'logout' %}">Log Out</a></p>
 {% else %}
     <p>You are not logged in</p>

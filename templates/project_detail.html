@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+    <h1> PROJETO </h1>
+    <p>{{ project.title }}</p>
+    <p>{{ project.description }}</p>
+    <p>{{ project.location }}</p>
+    <p><a href="{% url 'project_edit' project.pk %}">+ Edit Project</a></p>
+    <p><a href="{% url 'project_delete' project.pk %}">- Delete Project</a></p>
+</div>
+{% endblock content %}
