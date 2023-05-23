@@ -54,7 +54,7 @@ class StudentUpdateView(LoginRequiredMixin, UpdateView):
         student.save()
         return super().form_valid(form)
 
-class OngUpdateView(UpdateView):
+class OngUpdateView(LoginRequiredMixin, UpdateView):
     model = CustomUser
     template_name = "ong_edit.html"
     fields = ["username", "email", 'description'] # CustomUser fields that you wanna edit
@@ -76,7 +76,7 @@ class OngUpdateView(UpdateView):
         ong.save()
         return super().form_valid(form)
 
-class UserDeleteView(DeleteView):
+class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = CustomUser
     template_name = "user_delete.html"
     success_url = reverse_lazy("home")
