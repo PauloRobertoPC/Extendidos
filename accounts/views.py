@@ -31,8 +31,10 @@ class StudentUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'student_edit.html'
     fields = ['username', 'email', 'description'] # CustomUser fields that you wanna edit
 
+
     # Student Fields that you wanna edit
     def get_form(self, form_class=None):
+        
         form = super().get_form(form_class)
         form.fields['registration'] = forms.CharField(
             widget=forms.TextInput,
@@ -54,7 +56,7 @@ class StudentUpdateView(LoginRequiredMixin, UpdateView):
         student.save()
         return super().form_valid(form)
 
-class OngUpdateView(LoginRequiredMixin, UpdateView):
+class OngUpdateView(LoginRequiredMixin,UpdateView):
     model = CustomUser
     template_name = "ong_edit.html"
     fields = ["username", "email", 'description'] # CustomUser fields that you wanna edit
@@ -76,7 +78,8 @@ class OngUpdateView(LoginRequiredMixin, UpdateView):
         ong.save()
         return super().form_valid(form)
 
-class UserDeleteView(LoginRequiredMixin, DeleteView):
+class UserDeleteView(LoginRequiredMixin,DeleteView):
     model = CustomUser
     template_name = "user_delete.html"
     success_url = reverse_lazy("home")
+

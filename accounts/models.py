@@ -39,3 +39,6 @@ class Ong(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     user.is_ong = True
     cnpj = models.CharField(max_length=30, default='0')
+    def __str__(self):
+    	return self.user.email
+
