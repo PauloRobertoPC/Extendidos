@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+{% for job in job_list %}
+<div class="post-entry">
+    <h1> PROJETO </h1>
+    <p>{{ job.title }}</p>
+    <p>{{ job.description }}</p>
+    <p>{{ job.location }}</p>
+    <p>{{ job.available_vacancies }}</p>
+    <p>{{ job.job_begin }}</p>
+    <p>{{ job.job_end }}</p>
+</div>
+{% endfor %}
+{% endblock content %}

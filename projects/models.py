@@ -17,7 +17,7 @@ class Project(models.Model):
 
 class Job(models.Model):
     project = models.ForeignKey(Project,on_delete=models.CASCADE)
-    student = models.ForeignKey(Student,on_delete=models.CASCADE)
+    student = models.ForeignKey(Student,on_delete=models.CASCADE,null=True)
     title = models.CharField(max_length=100)
     description = models.TextField()
     location = models.CharField(max_length=100, choices=states, default="Ceará")

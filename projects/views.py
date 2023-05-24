@@ -8,7 +8,7 @@ from .models import Project,Job
 class ProjectsCreateView(LoginRequiredMixin,CreateView):
     model = Project
     template_name = 'project_create.html'
-    fields = ['title', 'description', 'location']
+    fields = ['title', 'description', 'location',]
 
     def form_valid(self,form):
         form.instance.ong = self.request.user.ong
@@ -32,11 +32,15 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'project_edit.html'
     fields = ['title', 'description', 'location']
 
+class JobListView(LoginRequiredMixin,ListView):
+    model = Job
+    template_name = "job_list.html"
+
 class JobCreateView(LoginRequiredMixin,CreateView):
     model = Job
     template_name = 'job_create.html'
     fields = ['title','description','location','available_vacancies','job_begin','job_end']
 
     def form_valid(self,form):
-        form.instance.ong = self.request.user.ong
+        form.instance.project = Project.objects.get(pk = self.kwargs['pk']) 
         return super().form_valid(form)
