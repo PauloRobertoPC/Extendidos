@@ -8,4 +8,16 @@
 </div>
 <a href="{% url 'ong_edit' user.pk %}">+ Edit Ong</a>
 <p><a href="{% url 'user_delete' user.pk %}">- Delete User</a></p>
+<h1>FOTO COVER</h1>
+{% if user.cover %}
+    <img src="{{ user.cover.url}}">
+{% else %}
+    <h2>SEM COVER</h2>
+{% endif %}
+<h1>FOTO PERFIL</h1>
+{% if user.perfil %}
+    <img src="{{ user.perfil.url}}">
+{% else %}
+    <h2>SEM PERFIL</h2>
+{% endif %}
 {% endblock content %}

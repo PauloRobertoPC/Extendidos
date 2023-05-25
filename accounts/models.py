@@ -17,6 +17,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     description = models.TextField()
     is_student = models.BooleanField(default=False)
     is_ong = models.BooleanField(default=False)
+    cover = models.ImageField(upload_to="covers/", default='covers/default_cover.png')
+    perfil = models.ImageField(upload_to="perfils/", default='perfils/default_perfil.png')
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

@@ -29,7 +29,7 @@ class OngDetailView(DetailView):
 class StudentUpdateView(LoginRequiredMixin, UpdateView):
     model = CustomUser
     template_name = 'student_edit.html'
-    fields = ['username', 'email', 'description'] # CustomUser fields that you wanna edit
+    fields = ['cover', 'perfil', 'username', 'email', 'description'] # CustomUser fields that you wanna edit
 
     # Student Fields that you wanna edit
     def get_form(self, form_class=None):
@@ -57,7 +57,7 @@ class StudentUpdateView(LoginRequiredMixin, UpdateView):
 class OngUpdateView(LoginRequiredMixin, UpdateView):
     model = CustomUser
     template_name = "ong_edit.html"
-    fields = ["username", "email", 'description'] # CustomUser fields that you wanna edit
+    fields = ['cover', 'perfil', 'username', 'email', 'description'] # CustomUser fields that you wanna edit
 
     # ONG Fields that you wanna edit
     def get_form(self, form_class=None):
