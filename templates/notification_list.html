@@ -3,26 +3,22 @@
 
 <h1> NOTIFICATIONS </h1>
 
+{% if True %}
+    <p>{{ user.username }}</p>
+{% endif %}
+
 {% for notification in notification_list %}
-    {% if user.is_student%}
-        {% if notificaion.student equals user.student}
-            <div class="post-entry">    
-                <p>{{ notification.job }}</p>
-                <p>{{ notification.message }}</p>
+    <h1>Notificação</h1>
+    <p>{{ notification.job.project }}</p>
+    <p>{{ notification.job }}</p>
+    <p>{{ notification.message }}</p>
+    <p>{{ notification.student.user }}</p>
 
-                
-                <h2><a href="{% url 'project_detail' project.pk %}">Ver Post</a></h2>
-            </div>
-        {% endif %}
+    {% if user.is_ong %}
+        Colocar botões de negar e aceitar aqui
     {% endif %}
 
-    {% if user.is_ong%}
-        {% if notificaion.job.project.ong equals user.ong}
-            <div class="post-entry">    
-                <p>{{ notification.student wants to join notification.job }}</p>
-            </div>
-        {% endif %}
-    {% endif %}
 {% endfor %}
+
 
 {% endblock content%}

@@ -30,14 +30,17 @@ class Job(models.Model):
 
     def __str__(self):
         return self.title
-    
+
 class Notification(models.Model):
     student = models.ForeignKey(Student,on_delete=models.CASCADE)
     job = models.ForeignKey(Job,on_delete=models.CASCADE)
-    #message = models.TextChoices(choices = (("APPROVED", "Approved"),("REFUSED", "Refused")))
+    message = models.CharField(max_length = 100, default='Mensagem')
+    directed_to_student = models.BooleanField(default=True)
+    state = models.CharField(max_length = 8, default = 'UNREAD',
+                               choices = [("READ", "Read"), ("UNREAD", "Unread")])
 
     def get_absolute_url(self):
         return reverse_lazy('home')
-    
+
     def __str__(self):
-        return "Notification:"
+        return self.message

@@ -1,14 +1,10 @@
-from typing import Any
-from django import http
 from django.shortcuts import redirect
-from django.forms.models import BaseModelForm
-from django.http import HttpResponse
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Project,Job,Notification
+from django.db.models import Q
 
 class ProjectsCreateView(LoginRequiredMixin,CreateView):
     model = Project
@@ -41,6 +37,10 @@ class JobListView(LoginRequiredMixin,ListView):
     model = Job
     template_name = "job_list.html"
 
+    def get_queryset(self):
+        pk = self.kwargs.get("pk")
+        return Job.objects.filter(project=pk)
+
 class JobCreateView(LoginRequiredMixin,CreateView):
     model = Job
     template_name = 'job_create.html'
@@ -54,31 +54,31 @@ class JobApplyView(LoginRequiredMixin,DetailView):
     model = Notification
     template_name = 'job_apply.html'
 
-
-    def setup(self, request,*args, **kwargs) :
-        super().setup(request, *args, **kwargs)
-        self.args = args
-        self.kwargs = kwargs
-        job = Job.objects.get(pk = self.kwargs.get('pk'))
-        ong = job.project.ong
-        student = request.user.student
-        Notification.objects.create(student = student, job = job)
-
     def get(self, request, *args, **kwargs):
+        job = Job.objects.get(pk = self.kwargs.get('pk'))
+        student = request.user.student
+        messageArg = "O estudante '" + request.user.username + "' está se candidatando ao trabalho '" + job.title + "' do projeto '" + job.project.title + "'."
+        Notification.objects.create(student = student, job = job, message=messageArg, directed_to_student=False)
         return redirect('home')
 
     def post(self, request, *args, **kwargs):
        return redirect('home')
 
 
-#def my_function(request):
-#    #job = Job.objects.get(pk = request.kwargs.get('pk'))
-#    #ong = job.project.ong
-#    #student = request.user.student
-#    #Notification.objects.create(student = student, job = job)
-#    print("aqui")
-#    return redirect("home")
-
 class NotificationListView(LoginRequiredMixin,ListView):
-    model = Notification  
+    model = Notification
     template_name = "notification_list.html"
+
+    def get_queryset(self):
+        user = self.request.user
+        if(user.is_ong):
+            return Notification.objects.filter(
+                Q(state='UNREAD'),
+                Q(job__project__ong=self.request.user.ong),
+                Q(directed_to_student=False)
+            )
+        return Notification.objects.filter(
+            Q(state='UNREAD'),
+            Q(student__user=user),
+            Q(directed_to_student=True)
+        )

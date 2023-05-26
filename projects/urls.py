@@ -10,6 +10,7 @@ urlpatterns = [
     path("<int:pk>/joblist/", JobListView.as_view(), name="job_list"),
     path("<int:pk>/createjob/", JobCreateView.as_view(), name="job_create"),
     path("<int:pk>/apply/", JobApplyView.as_view(), name="job_apply"),
+    path("notifications/", NotificationListView.as_view(), name="notification_list"),
 
 
 ]
