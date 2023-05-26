@@ -20,15 +20,15 @@ class OngSignUpView(CreateView):
 
 class StudentDetailView(DetailView):
     model = CustomUser
-    template_name = "student_detail.html"
+    template_name = "urd_user/student_detail.html"
 
 class OngDetailView(DetailView):
     model = CustomUser
-    template_name = "ong_detail.html"
+    template_name = "urd_user/ong_detail.html"
 
 class StudentUpdateView(LoginRequiredMixin, UpdateView):
     model = CustomUser
-    template_name = 'student_edit.html'
+    template_name = 'urd_user/student_edit.html'
     fields = ['cover', 'perfil', 'username', 'email', 'description'] # CustomUser fields that you wanna edit
 
     # Student Fields that you wanna edit
@@ -56,7 +56,7 @@ class StudentUpdateView(LoginRequiredMixin, UpdateView):
 
 class OngUpdateView(LoginRequiredMixin, UpdateView):
     model = CustomUser
-    template_name = "ong_edit.html"
+    template_name = "urd_user/ong_edit.html"
     fields = ['cover', 'perfil', 'username', 'email', 'description'] # CustomUser fields that you wanna edit
 
     # ONG Fields that you wanna edit
@@ -78,6 +78,6 @@ class OngUpdateView(LoginRequiredMixin, UpdateView):
 
 class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = CustomUser
-    template_name = "user_delete.html"
+    template_name = "urd_user/user_delete.html"
     success_url = reverse_lazy("home")
 
