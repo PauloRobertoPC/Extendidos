@@ -14,4 +14,5 @@ urlpatterns = [
     path("notifications/", NotificationListView.as_view(), name="notification_list"),
     path("<int:pk>/accept_deny", JobAcceptDenyView.as_view(), name="job_accept_deny"),
     path("<int:pk>/delete_notification/", NotificationDeleteView.as_view(), name="delete_notification"),
+    path("<int:pk1>/<int:pk2>/dismiss_user/", JobDismissView.as_view(), name="dismiss_user"),
 ]

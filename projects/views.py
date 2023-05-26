@@ -5,6 +5,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Project,Job,Notification
 from django.db.models import Q
+from accounts.models import CustomUser
 
 class ProjectsCreateView(LoginRequiredMixin, CreateView):
     model = Project
@@ -92,6 +93,21 @@ class JobAcceptDenyView(LoginRequiredMixin, DetailView):
     def post(self, request, *args, **kwargs):
        return redirect('home')
 
+class JobDismissView(LoginRequiredMixin, DeleteView):
+    model = Job
+    template_name = 'job/dismiss_user.html'
+    success_url = reverse_lazy("home")
+
+    def get(self, request, *args, **kwargs):
+        job_pk=self.kwargs.get('pk1')
+        student_pk = self.kwargs.get('pk2')
+        job = Job.objects.get(pk=job_pk)
+        student = CustomUser.objects.get(pk=student_pk).student
+        job.student.remove(student)
+        job.save()
+        messageArg = "A sua candidatura para o trabalho '" +job.title+  "' do projeto '" +job.project.title+ "' foi removida!"
+        Notification.objects.create(student = student, job = job, message=messageArg)
+        return redirect('home')
 
 class NotificationListView(LoginRequiredMixin,ListView):
     model = Notification

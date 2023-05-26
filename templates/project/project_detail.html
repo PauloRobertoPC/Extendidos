@@ -11,10 +11,7 @@
          <p><a href="{% url 'project_delete' project.pk %}">- Delete Project</a></p>
          <p><a href="{% url 'job_create' project.pk %}">- Add Job</a></p>
          {% endif %}
-        {% if user.is_student %}
-         <p><a href="{% url 'job_list' project.pk %}">See job opportunities.</a></p>
-         {% endif %}
-
+         <p><a href="{% url 'job_list' project.pk %}">See jobs availables.</a></p>
     {% endif %}
    
 </div>
