@@ -1,9 +1,14 @@
+from typing import Any
+from django import http
+from django.shortcuts import redirect
+from django.forms.models import BaseModelForm
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Project,Job
+from .models import Project,Job,Notification
 
 class ProjectsCreateView(LoginRequiredMixin,CreateView):
     model = Project
@@ -44,3 +49,36 @@ class JobCreateView(LoginRequiredMixin,CreateView):
     def form_valid(self,form):
         form.instance.project = Project.objects.get(pk = self.kwargs['pk']) 
         return super().form_valid(form)
+
+class JobApplyView(LoginRequiredMixin,DetailView):
+    model = Notification
+    template_name = 'job_apply.html'
+
+
+    def setup(self, request,*args, **kwargs) :
+        super().setup(request, *args, **kwargs)
+        self.args = args
+        self.kwargs = kwargs
+        job = Job.objects.get(pk = self.kwargs.get('pk'))
+        ong = job.project.ong
+        student = request.user.student
+        Notification.objects.create(student = student, job = job)
+
+    def get(self, request, *args, **kwargs):
+        return redirect('home')
+
+    def post(self, request, *args, **kwargs):
+       return redirect('home')
+
+
+#def my_function(request):
+#    #job = Job.objects.get(pk = request.kwargs.get('pk'))
+#    #ong = job.project.ong
+#    #student = request.user.student
+#    #Notification.objects.create(student = student, job = job)
+#    print("aqui")
+#    return redirect("home")
+
+class NotificationListView(LoginRequiredMixin,ListView):
+    model = Notification  
+    template_name = "notification_list.html"

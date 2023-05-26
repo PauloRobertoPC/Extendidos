@@ -37,6 +37,7 @@ class Student(models.Model):
     university = models.CharField(max_length=100, choices=universities, default="Universidade Federal do Ceará")
     registration = models.CharField(max_length=30, default='0')
 
+
 class Ong(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     user.is_ong = True

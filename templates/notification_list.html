@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1> NOTIFICATIONS </h1>
+
+{% for notification in notification_list %}
+    {% if user.is_student%}
+        {% if notificaion.student equals user.student}
+            <div class="post-entry">    
+                <p>{{ notification.job }}</p>
+                <p>{{ notification.message }}</p>
+
+                
+                <h2><a href="{% url 'project_detail' project.pk %}">Ver Post</a></h2>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    {% if user.is_ong%}
+        {% if notificaion.job.project.ong equals user.ong}
+            <div class="post-entry">    
+                <p>{{ notification.student wants to join notification.job }}</p>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endfor %}
+
+{% endblock content%}

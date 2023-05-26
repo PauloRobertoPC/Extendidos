@@ -2,13 +2,16 @@
 {% block content %}
 {% for job in job_list %}
 <div class="post-entry">
-    <h1> PROJETO </h1>
-    <p>{{ job.title }}</p>
+    <h1>{{ job.title }}</h1>
     <p>{{ job.description }}</p>
     <p>{{ job.location }}</p>
     <p>{{ job.available_vacancies }}</p>
     <p>{{ job.job_begin }}</p>
     <p>{{ job.job_end }}</p>
+
+    {% if user.is_student %}
+        <h2><a href="{% url 'job_apply' job.pk %}">Aplicar a vaga.</a></h2>
+    {% endif %}
 </div>
 {% endfor %}
 {% endblock content %}
