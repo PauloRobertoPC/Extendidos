@@ -19,6 +19,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_ong = models.BooleanField(default=False)
     cover = models.ImageField(upload_to="covers/", default='covers/default_cover.png')
     perfil = models.ImageField(upload_to="perfils/", default='perfils/default_perfil.png')
+    sum_avaliation = models.IntegerField(default=0)
+    total_avaliation = models.IntegerField(default=0)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -49,3 +51,10 @@ class Ong(models.Model):
     def __str__(self):
         return self.user.username
 
+class Comment(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="rated_user")
+    comment = models.CharField(max_length=255)
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="evaluator_user")
+
+    def __str__(self):
+        return self.comment

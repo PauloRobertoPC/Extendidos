@@ -17,13 +17,14 @@ class Project(models.Model):
 
 class Job(models.Model):
     project = models.ForeignKey(Project,on_delete=models.CASCADE)
-    student = models.ManyToManyField(Student,null=True)
+    student = models.ManyToManyField(Student)
     title = models.CharField(max_length=100)
     description = models.TextField()
     location = models.CharField(max_length=100, choices=states, default="Ceará")
     available_vacancies = models.IntegerField()
     job_begin =  models.DateField()
     job_end = models.DateField()
+    is_active = models.BooleanField(default=True)
 
     def get_absolute_url(self):
         return reverse_lazy('home')

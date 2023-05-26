@@ -12,8 +12,9 @@
     <h3>Mostra todos que estão cadastrdos</h3>
     {% for student in job.student.all %}
         <li>{{ student.user.username }} </li>
+        <p><a href="{% url 'student_detail' student.user.pk %}"> Perfil do Estudante Acima(Consertar Isso)</a></p>
         {% if user.is_ong %} 
-            <p><a href="{% url 'dismiss_user' job.pk student.user.pk %}"> Dispensar Estudante(Só a ONG dona do projeto pode ver e fazer isso) </a></p>
+            <p><a href="{% url 'dismiss_user' job.pk student.user.pk %}"> Dispensar Estudante </a></p>
         {% endif %}
     {% endfor %}
 </div>
