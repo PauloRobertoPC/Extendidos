@@ -1,5 +1,5 @@
 from django.db import models
-from accounts.models import Ong,Student,CustomUser
+from accounts.models import Ong, Student
 from .utils import states
 from django.urls import reverse_lazy
 
@@ -38,6 +38,9 @@ class Notification(models.Model):
     directed_to_student = models.BooleanField(default=True)
     state = models.CharField(max_length = 8, default = 'UNREAD',
                                choices = [("READ", "Read"), ("UNREAD", "Unread")])
+
+    def get_success_url(self):
+        return reverse_lazy('notification_list')
 
     def get_absolute_url(self):
         return reverse_lazy('home')

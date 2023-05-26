@@ -80,4 +80,3 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = CustomUser
     template_name = "urd_user/user_delete.html"
     success_url = reverse_lazy("home")
-

@@ -26,7 +26,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
 
     def __str__(self):
-        return self.email
+        return self.username
 
     def get_absolute_url(self):
         return reverse_lazy('home')
@@ -37,11 +37,15 @@ class Student(models.Model):
     university = models.CharField(max_length=100, choices=universities, default="Universidade Federal do Ceará")
     registration = models.CharField(max_length=30, default='0')
 
+    def __str__(self):
+        return self.user.username
+
 
 class Ong(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     user.is_ong = True
     cnpj = models.CharField(max_length=30, default='0')
+
     def __str__(self):
-    	return self.user.email
+        return self.user.username
 

@@ -16,6 +16,11 @@
 
     {% if user.is_ong %}
         Colocar botões de negar e aceitar aqui
+        <p><a href="{% url 'job_accept_deny' notification.pk %}?operation=1">Aceitar Candidatura</a></p>
+        <p><a href="{% url 'job_accept_deny' notification.pk %}?operation=0">Negar Candidatura</a></p>
+    {% else %}
+        Colocar o botão de ler notificação
+        <p><a href="{% url 'delete_notification' notification.pk%}">Deletar Notificação</a></p>
     {% endif %}
 
 {% endfor %}

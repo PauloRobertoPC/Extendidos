@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-{% for job in job_list %}
-<div class="post-entry">
+<div>
+    <h1> Job </h1>
     <h1>{{ job.title }}</h1>
     <p>{{ job.description }}</p>
     <p>{{ job.location }}</p>
     <p>{{ job.available_vacancies }}</p>
     <p>{{ job.job_begin }}</p>
     <p>{{ job.job_end }}</p>
-    <h2><a href="{% url 'job_detail' job.pk %}">Ver descrição do Job.</a></h2>
-    {% if user.is_student %}
-        <h2><a href="{% url 'job_apply' job.pk %}">Aplicar a vaga.</a></h2>
-    {% endif %}
+    <h1>Estudantes Voluntários</h1>
+    <h3>Mostra todos que estão cadastrdos</h3>
+    {% for student in job.student.all %}
+        <li>{{ student.user.username }} </li>
+    {% endfor %}
 </div>
-{% endfor %}
 {% endblock content %}

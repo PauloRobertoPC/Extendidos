@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Project,Job,Notification
 from django.db.models import Q
 
-class ProjectsCreateView(LoginRequiredMixin,CreateView):
+class ProjectsCreateView(LoginRequiredMixin, CreateView):
     model = Project
     template_name = 'project/project_create.html'
     fields = ['title', 'description', 'location',]
@@ -33,15 +33,7 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'project/project_edit.html'
     fields = ['title', 'description', 'location']
 
-class JobListView(LoginRequiredMixin,ListView):
-    model = Job
-    template_name = "job/job_list.html"
-
-    def get_queryset(self):
-        pk = self.kwargs.get("pk")
-        return Job.objects.filter(project=pk)
-
-class JobCreateView(LoginRequiredMixin,CreateView):
+class JobCreateView(LoginRequiredMixin, CreateView):
     model = Job
     template_name = 'job/job_create.html'
     fields = ['title','description','location','available_vacancies','job_begin','job_end']
@@ -50,7 +42,19 @@ class JobCreateView(LoginRequiredMixin,CreateView):
         form.instance.project = Project.objects.get(pk = self.kwargs['pk']) 
         return super().form_valid(form)
 
-class JobApplyView(LoginRequiredMixin,DetailView):
+class JobListView(LoginRequiredMixin, ListView):
+    model = Job
+    template_name = "job/job_list.html"
+
+    def get_queryset(self):
+        pk = self.kwargs.get("pk")
+        return Job.objects.filter(project=pk)
+
+class JobDetailView(LoginRequiredMixin, DetailView):
+    model = Job
+    template_name = "job/job_detail.html"
+
+class JobApplyView(LoginRequiredMixin, DetailView):
     model = Notification
     template_name = 'job/job_apply.html'
 
@@ -60,6 +64,30 @@ class JobApplyView(LoginRequiredMixin,DetailView):
         messageArg = "O estudante '" + request.user.username + "' está se candidatando ao trabalho '" + job.title + "' do projeto '" + job.project.title + "'."
         Notification.objects.create(student = student, job = job, message=messageArg, directed_to_student=False)
         return redirect('home')
+
+    def post(self, request, *args, **kwargs):
+       return redirect('home')
+
+class JobAcceptDenyView(LoginRequiredMixin, DetailView):
+    model = Notification
+    template_name = 'job/job_accept_deny.html'
+
+    def get(self, request, *args, **kwargs):
+        operation = int(self.request.GET.get("operation"))
+        notification = Notification.objects.get(pk=self.kwargs.get('pk'))
+        job = notification.job
+        messageArg = ""
+        if(operation):
+            job.available_vacancies -= 1;
+            job.student.add(notification.student)
+            job.save()
+            messageArg = "A sua candidatura para o trabalho '" +job.title+  "' do projeto '" +job.project.title+ "' foi aceita!"
+        else:
+            messageArg = "A sua candidatura para o trabalho '" +job.title+  "' do projeto '" +job.project.title+ "' foi negada!"
+        notification.directed_to_student = True
+        notification.message = messageArg
+        notification.save()
+        return redirect('notification_list')
 
     def post(self, request, *args, **kwargs):
        return redirect('home')
@@ -82,3 +110,8 @@ class NotificationListView(LoginRequiredMixin,ListView):
             Q(student__user=user),
             Q(directed_to_student=True)
         )
+
+class NotificationDeleteView(LoginRequiredMixin, DeleteView):
+    model = Notification
+    template_name = 'notification/notification_delete.html'
+    success_url = reverse_lazy("notification_list")
