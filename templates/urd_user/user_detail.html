@@ -29,13 +29,6 @@
         {{ form|crispy }}
         <button class="btn btn-success ml-2" type="submit">Save</button>
     </form>
-{% else %}
-    {% if object.is_student %}
-        <a href="{% url 'student_edit' object.pk %}">+ Edit Student</a>
-    {% else %}
-        <a href="{% url 'ong_edit' object.pk %}">+ Edit Ong</a>
-    {% endif %}
-    <p><a href="{% url 'user_delete' object.pk %}">- Delete User</a></p>
 {% endif %}
 
 <h1>FOTO COVER</h1>

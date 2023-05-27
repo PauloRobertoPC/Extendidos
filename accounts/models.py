@@ -59,7 +59,7 @@ class Ong(models.Model):
 class Comment(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="rated_user")
     comment = models.CharField(max_length=255)
-    stars = models.IntegerField(default=0, 
+    stars = models.IntegerField(default=0,
                                 validators=[
                                     MinValueValidator(0),
                                     MaxValueValidator(5)

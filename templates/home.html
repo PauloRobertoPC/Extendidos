@@ -2,20 +2,14 @@
 {% block title %}Home{% endblock title %}
 {% block content %}
 {% if user.is_authenticated %}
+    <h1>Usuário Autenticado Mostrar Jobs ou Projetos</h1>
     Hi {{ user.username }}, you are a 
     {% if user.is_student %}
         student!
     {% else %}
         ONG!
-        <p><a href="{% url 'project_create' %}">Criar Projeto</a></p>
     {% endif %}
-    <h2><a href="{% url 'user_detail' user.pk %}">Perfil</a></h2>
-    <p><a href="{% url 'project_list' %}">Ver Projetos</a></p>
-    <p><a href="{% url 'notification_list' %}">Ver Notificações</a></p>
-    <p><a href="{% url 'logout' %}">Log Out</a></p>
 {% else %}
-    <p>You are not logged in</p>
-    <a href="{% url 'login' %}">Log In</a> |
-    <a href="{% url 'signup' %}">Sign Up</a>
+    <h1>Usuário Não Autenticado Mostrar Algo</h1>
 {% endif %}
 {% endblock content %}

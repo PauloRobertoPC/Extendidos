@@ -11,8 +11,7 @@
          <p><a href="{% url 'project_delete' project.pk %}">- Delete Project</a></p>
          <p><a href="{% url 'job_create' project.pk %}">- Add Job</a></p>
          {% endif %}
-         <p><a href="{% url 'job_list' project.pk %}">See jobs availables.</a></p>
+         <p><a href="{% url 'job_list' project.pk %}">Ver Trabalhos</a></p>
     {% endif %}
-   
 </div>
 {% endblock content %}

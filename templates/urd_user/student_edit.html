@@ -6,4 +6,5 @@
     <input type="submit" value="Update">
 </form>
 <a href="{% url 'password_change' %}"> Change password </a>
+<p><a href="{% url 'user_delete' user.pk %}"> Delete User </a></p>
 {% endblock content %}
