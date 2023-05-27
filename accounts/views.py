@@ -1,12 +1,12 @@
-from django.urls import reverse_lazy, reverse
-from django.contrib.auth import authenticate, login
-from django.views.generic import FormView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy, reverse
+from django.contrib.auth import login
 from django.views import View
+from django.views.generic import FormView
+from django.views.generic.edit import UpdateView, DeleteView
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from .models import CustomUser
 from .forms import CustomStudentCreationForm, CustomOngCreationForm, CommentForm
@@ -50,7 +50,7 @@ class UserLoginSignUpView(View):
             'ong_form': ong_form,
         })
 
-class UserDetailView(FormView):
+class UserDetailView(LoginRequiredMixin, FormView):
     model = CustomUser
     form_class = CommentForm
 
@@ -76,7 +76,7 @@ class UserDetailView(FormView):
     def get_success_url(self):
         return reverse("user_detail", kwargs={"pk": self.kwargs.get("pk")})
 
-class StudentUpdateView(LoginRequiredMixin, UpdateView):
+class StudentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = CustomUser
     template_name = 'urd_user/student_edit.html'
     fields = ['cover', 'perfil', 'username', 'email', 'description'] # CustomUser fields that you wanna edit
@@ -104,7 +104,11 @@ class StudentUpdateView(LoginRequiredMixin, UpdateView):
         student.save()
         return super().form_valid(form)
 
-class OngUpdateView(LoginRequiredMixin, UpdateView):
+    def test_func(self):
+        obj = self.get_object()
+        return obj == self.request.user
+
+class OngUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = CustomUser
     template_name = "urd_user/ong_edit.html"
     fields = ['cover', 'perfil', 'username', 'email', 'description'] # CustomUser fields that you wanna edit
@@ -126,8 +130,15 @@ class OngUpdateView(LoginRequiredMixin, UpdateView):
         ong.save()
         return super().form_valid(form)
 
-class UserDeleteView(LoginRequiredMixin, DeleteView):
+    def test_func(self):
+        obj = self.get_object()
+        return obj == self.request.user
+
+class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = CustomUser
     template_name = "urd_user/user_delete.html"
     success_url = reverse_lazy("home")
-    
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj == self.request.user
