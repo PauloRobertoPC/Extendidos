@@ -15,7 +15,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
 
-    description = models.TextField()
+    description = models.TextField(default="")
     is_student = models.BooleanField(default=False)
     is_ong = models.BooleanField(default=False)
     cover = models.ImageField(upload_to="covers/", default='covers/default_cover.png')
