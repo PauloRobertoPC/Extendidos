@@ -12,10 +12,10 @@
     </head>
     <body>
 
+        <!-- Menu/Navbar  -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{% url 'home' %}">Extendidos</a>
-
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -23,53 +23,155 @@
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
-                            {% if user.is_authenticated %} 
-                                {% if user.is_ong %} 
-                                    <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page" href="{% url 'project_create' %}">Criar Projeto(ONG)</a>
-                                    </li>
-                                {% endif %}
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="{% url 'project_list' %}">Projetos</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="{% url 'notification_list' %}">Notificações</a>
-                                </li>
-                            {% endif %}
+                        {% if user.is_authenticated %} 
+                        {% block aditional_menu_items %}
+                        {% endblock aditional_menu_items %}
+                        {% if user.is_ong %} 
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'project_create' %}">Criar Projeto(ONG)</a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'project_list' %}">Projetos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'notification_list' %}">Notificações</a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {% if user.is_authenticated %} 
-                                    Opções
-                                {% else%}
-                                    Entrar 
-                                {% endif %}
+                                Opções
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                {% if user.is_authenticated %} 
-                                    <li><a class="dropdown-item" href="{% url 'user_detail' user.pk %}">Perfil</a></li>
-                                    {% if user.is_student %}
-                                        <li><a class="dropdown-item" href="{% url 'student_edit' user.pk %}">Editar Perfil</a></li>
-                                    {% else %}
-                                        <li><a class="dropdown-item" href="{% url 'ong_edit' user.pk %}">Editar Perfil</a></li>
-                                    {% endif %}
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-                                    {% else%}
-                                        <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
-                                        <li><a class="dropdown-item" href="{% url 'signup' %}">Sign up</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user_detail' user.pk %}">Perfil</a></li>
+                                {% if user.is_student %}
+                                <li><a class="dropdown-item" href="{% url 'student_edit' user.pk %}">Editar Perfil</a></li>
+                                {% else %}
+                                <li><a class="dropdown-item" href="{% url 'ong_edit' user.pk %}">Editar Perfil</a></li>
                                 {% endif %}
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                             </ul>
+                            {% else %}
+
+                        <li class="nav-item" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            <a class="nav-link active" aria-current="page" href="#">Entrar</a>
+                        </li>
+                        {% endif %}
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
 
-
+        <!-- Block Content -->
         <main>
             {% block content %}
             {% endblock content %}
         </main>
+
+
+        <!-- Login Modal -->
+        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <!-- Login form -->
+                        <form>
+                            <!-- Add your login form fields here -->
+                            <div class="mb-3">
+                                <label for="loginEmail" class="form-label">Email address</label>
+                                <input type="email" class="form-control" id="loginEmail" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="loginPassword" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="loginPassword" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </form>
+
+                        <hr>
+
+                            <!-- Signup link -->
+                        <p>Não tem conta? <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#signupModal">Cadastre-se aqui</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Signup Modal -->
+        <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="signupModalLabel">Cadastro</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <!-- Signup options -->
+                        <ul class="nav nav-pills mb-3" id="signupOptions" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="student-tab" data-bs-toggle="pill" data-bs-target="#studentSignup" type="button" role="tab" aria-controls="studentSignup" aria-selected="true">Cadastre-se como Estudante</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="ngo-tab" data-bs-toggle="pill" data-bs-target="#ngoSignup" type="button" role="tab" aria-controls="ngoSignup" aria-selected="false">Cadastre-se como ONG</button>
+                            </li>
+                        </ul>
+
+                        <!-- Signup options content -->
+                        <div class="tab-content" id="signupOptionsContent">
+                            <!-- Student signup tab content -->
+                            <div class="tab-pane fade show active" id="studentSignup" role="tabpanel" aria-labelledby="student-tab">
+                                <!-- Student signup form -->
+                                <form>
+                                    <!-- Add your student signup form fields here -->
+                                    <div class="mb-3">
+                                        <label for="studentSignupEmail" class="form-label">Email address</label>
+                                        <input type="email" class="form-control" id="studentSignupEmail" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="studentSignupPassword" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="studentSignupPassword" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Cadastrar Estudante</button>
+                                </form>
+                            </div>
+
+                            <!-- NGO signup tab content -->
+                            <div class="tab-pane fade" id="ngoSignup" role="tabpanel" aria-labelledby="ngo-tab">
+                                <!-- NGO signup form -->
+                                <form>
+                                    <!-- Add your NGO signup form fields here -->
+                                    <div class="mb-3">
+                                        <label for="ngoSignupEmail" class="form-label">Email address</label>
+                                        <input type="email" class="form-control" id="ngoSignupEmail" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="ngoSignupPassword" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="ngoSignupPassword" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Cadastrar ONG</button>
+                                </form>
+                            </div>
+                            <hr>
+
+                                <!-- Login link -->
+                            <p>Já tem conta? <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#loginModal">Logue aqui</a></p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Option 1: Bootstrap Bundle with Popper -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

@@ -8,6 +8,24 @@ from .models import CustomUser
 from .forms import CustomStudentCreationForm, CustomOngCreationForm, CommentForm
 from .utils import universities
 
+class UserSignUpView(CreateView):
+    form_class = CustomStudentCreationForm
+    success_url = reverse_lazy('login')
+    template_name = "registration/signup.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['student_form'] = CustomStudentCreationForm()
+        context['ong_form'] = CustomOngCreationForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        if 'student_signup' in request.POST:
+            self.form_class = CustomStudentCreationForm
+        elif 'ong_signup' in request.POST:
+            self.form_class = CustomOngCreationForm
+        return super().post(request, *args, **kwargs)
+
 class StudentSignUpView(CreateView):
     form_class = CustomStudentCreationForm
     success_url = reverse_lazy('login')
