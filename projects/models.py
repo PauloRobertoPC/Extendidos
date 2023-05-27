@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 
 class Project(models.Model):
     ong = models.ForeignKey(Ong,on_delete=models.CASCADE)
-    title = models.CharField(max_length=100)    
+    title = models.CharField(max_length=100)
     description = models.TextField()
     location = models.CharField(max_length=100, choices=states, default="Ceará")
 

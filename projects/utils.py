@@ -1,4 +1,4 @@
-states = [    
+states = [
     ("RO", "Rondônia"),
     ("AC", "Acre"),
     ("AM", "Amazonas"),
