@@ -43,4 +43,4 @@ class CustomOngCreationForm(UserCreationForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ('comment',)
+        fields = ('stars', 'comment',)

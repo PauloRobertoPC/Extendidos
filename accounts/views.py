@@ -35,6 +35,9 @@ class UserDetailView(FormView):
         comment.author = self.request.user
         comment.user = CustomUser.objects.get(pk=self.kwargs.get("pk"))
         if(comment.user != comment.author):
+            comment.user.sum_avaliation += comment.stars 
+            comment.user.total_avaliation += 1
+            comment.user.save()
             comment.save()
         return super().form_valid(form)
 
