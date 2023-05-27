@@ -3,8 +3,7 @@ from django.views.generic.base import TemplateView
 from .views import (
     StudentSignUpView, 
     OngSignUpView, 
-    StudentDetailView, 
-    OngDetailView, 
+    UserDetailView,
     StudentUpdateView, 
     OngUpdateView,
     UserDeleteView
@@ -12,9 +11,8 @@ from .views import (
 
 urlpatterns = [
     path("student/<int:pk>/edit/", StudentUpdateView.as_view(), name="student_edit"),
-    path("student/<int:pk>/", StudentDetailView.as_view(), name="student_detail"),
+    path("user/<int:pk>/", UserDetailView.as_view(), name="user_detail"),
     path("ong/<int:pk>/edit/", OngUpdateView.as_view(), name="ong_edit"),
-    path("ong/<int:pk>/", OngDetailView.as_view(), name="ong_detail"),
     path("user/<int:pk>/delete/", UserDeleteView.as_view(), name="user_delete"),
     path("signup/", TemplateView.as_view(template_name="../templates/registration/signup.html"), name="signup"),
     path("student_singup/", StudentSignUpView.as_view(), name="student_signup"),

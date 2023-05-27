@@ -27,6 +27,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
+    @property
+    def mean_avaliation(self):
+        return self.sum_avaliation/max(self.total_avaliation, 1)
+
     def __str__(self):
         return self.username
 

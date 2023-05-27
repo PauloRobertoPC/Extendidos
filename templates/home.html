@@ -5,12 +5,11 @@
     Hi {{ user.username }}, you are a 
     {% if user.is_student %}
         student!
-        <h2><a href="{% url 'student_detail' user.pk %}">Perfil</a></h2>
     {% else %}
         ONG!
-        <h2><a href="{% url 'ong_detail' user.pk %}">Perfil</a></h2>
         <p><a href="{% url 'project_create' %}">Criar Projeto</a></p>
     {% endif %}
+    <h2><a href="{% url 'user_detail' user.pk %}">Perfil</a></h2>
     <p><a href="{% url 'project_list' %}">Ver Projetos</a></p>
     <p><a href="{% url 'notification_list' %}">Ver Notificações</a></p>
     <p><a href="{% url 'logout' %}">Log Out</a></p>

@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
-from .models import CustomUser, Student, Ong
+from .models import CustomUser, Student, Ong, Comment
 from .utils import universities
 
 class CustomStudentCreationForm(UserCreationForm):
@@ -39,3 +39,8 @@ class CustomOngCreationForm(UserCreationForm):
         ong.cnpj = self.cleaned_data.get('cnpj')
         ong.save()
         return user
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('comment',)

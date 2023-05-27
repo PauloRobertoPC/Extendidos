@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div>
+<h2>{{ object.username }}</h2>
+<p>Email: {{ object.email }}</p>
+{% if object.is_student %}
+    <p>Universidade: {{ object.student.university }}</p>
+    <p>Matrícula: {{ object.student.registration }}</p>
+{% else %}
+    <p>CNPJ: {{ object.ong.cnpj }}</p>
+{% endif %}
+<p>Descrição/Quem sou eu?: {{ object.description }}</p>
+<p>Soma das avaliações: {{ object.sum_avaliation }}</p>
+<p>Média das avaliações: {{ object.mean_avaliation }}</p>
+<p>Total de avaliações: {{ object.total_avaliation }}</p>
+</div>
+<h2>Comentários</h2>
+{% for comment in object.rated_user.all %}
+    <h4>Comentário</h4>
+    <p> Avaliado: {{ comment.user.username }} </p>
+    <p> Comentário: {{ comment.comment }} </p>
+    <p> Avaliador: {{ comment.author.username }} </p>
+{% endfor %}
+
+{% if user != object %}
+    <h4>Add a comment</h4>
+    <form action="" method="post">{% csrf_token %}
+        {{ form|crispy }}
+        <button class="btn btn-success ml-2" type="submit">Save</button>
+    </form>
+{% else %}
+    {% if object.is_student %}
+        <a href="{% url 'student_edit' object.pk %}">+ Edit Student</a>
+    {% else %}
+        <a href="{% url 'ong_edit' object.pk %}">+ Edit Ong</a>
+    {% endif %}
+    <p><a href="{% url 'user_delete' object.pk %}">- Delete User</a></p>
+{% endif %}
+
+<h1>FOTO COVER</h1>
+<img src="{{ object.cover.url}}">
+<h1>FOTO PERFIL</h1>
+<img src="{{ object.perfil.url}}">
+{% endblock content %}

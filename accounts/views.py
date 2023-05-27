@@ -1,11 +1,11 @@
-from django.urls import reverse_lazy
-from django.views.generic import DetailView
+from django.urls import reverse_lazy, reverse
+from django.views.generic import FormView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django import forms
 
 from .models import CustomUser
-from .forms import CustomStudentCreationForm, CustomOngCreationForm
+from .forms import CustomStudentCreationForm, CustomOngCreationForm, CommentForm
 from .utils import universities
 
 class StudentSignUpView(CreateView):
@@ -18,13 +18,28 @@ class OngSignUpView(CreateView):
     success_url = reverse_lazy('login')
     template_name = "registration/ong_signup.html"
 
-class StudentDetailView(DetailView):
+class UserDetailView(FormView):
     model = CustomUser
-    template_name = "urd_user/student_detail.html"
+    form_class = CommentForm
+    
+    template_name = "urd_user/user_detail.html"
 
-class OngDetailView(DetailView):
-    model = CustomUser
-    template_name = "urd_user/ong_detail.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object'] = CustomUser.objects.get(pk=self.kwargs.get('pk'))
+        context["form"] = CommentForm()
+        return context
+
+    def form_valid(self, form):
+        comment = form.save(commit=False)
+        comment.author = self.request.user
+        comment.user = CustomUser.objects.get(pk=self.kwargs.get("pk"))
+        if(comment.user != comment.author):
+            comment.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse("user_detail", kwargs={"pk": self.kwargs.get("pk")})
 
 class StudentUpdateView(LoginRequiredMixin, UpdateView):
     model = CustomUser
@@ -80,3 +95,4 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = CustomUser
     template_name = "urd_user/user_delete.html"
     success_url = reverse_lazy("home")
+    

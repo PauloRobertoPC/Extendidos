@@ -37,7 +37,7 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
 class JobCreateView(LoginRequiredMixin, CreateView):
     model = Job
     template_name = 'job/job_create.html'
-    fields = ['title','description','location','available_vacancies','job_begin','job_end']
+    fields = ['title','description','location','available_vacancies', 'is_active', 'job_begin','job_end']
 
     def form_valid(self,form):
         form.instance.project = Project.objects.get(pk = self.kwargs['pk']) 
@@ -54,6 +54,11 @@ class JobListView(LoginRequiredMixin, ListView):
 class JobDetailView(LoginRequiredMixin, DetailView):
     model = Job
     template_name = "job/job_detail.html"
+
+class JobUpdateView(LoginRequiredMixin, UpdateView):
+    model = Job
+    template_name = 'job/job_edit.html'
+    fields = ['title','description','location','available_vacancies', 'is_active', 'job_begin','job_end']
 
 class JobApplyView(LoginRequiredMixin, DetailView):
     model = Notification
