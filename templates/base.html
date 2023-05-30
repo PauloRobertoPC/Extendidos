@@ -105,7 +105,30 @@
                         <!-- Login form -->
                         <form method="post">
                             {% csrf_token %}
-                            {{ login_form|crispy }}
+                            <!-- Email Input -->
+                            <p>
+                                <label for="{{ login_form.username.id_for_label }}" class="my-custom-class">Email:</label>
+                                <input type="{{ login_form.username.field.widget.input_type }}" name="{{ login_form.username.name }}" id="{{ login_form.username.id_for_label }}" class="my-custom-class" value="">
+                                {% if login_form.username.errors %}
+                                    <ul class="errorlist">
+                                        {% for error in login_form.username.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </p>
+                            <!-- Password Input -->
+                            <p>
+                                <label for="{{ login_form.password.id_for_label }}" class="another-class">Password:</label>
+                                <input type="{{ login_form.password.field.widget.input_type }}" name="{{ login_form.password.name }}" id="{{ login_form.password.id_for_label }}" class="another-class">
+                                {% if login_form.password.errors %}
+                                    <ul class="errorlist">
+                                        {% for error in login_form.password.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </p>
                             <button type="submit" class="btn btn-primary" name="user_login">Login</button>
                         </form>
 
@@ -147,7 +170,82 @@
                                 <!-- Student signup form -->
                                 <form method="post">
                                     {% csrf_token %}
-                                    {{ student_form.as_p }}
+                                    <!-- Username Input -->
+                                    <p>
+                                        <label for="{{ student_form.username.id_for_label }}" class="my-custom-class">Nome Completo:</label>
+                                        <input type="{{ student_form.username.field.widget.input_type }}" name="{{ student_form.username.name }}" id="{{ student_form.username.id_for_label }}" class="my-custom-class" value="">
+                                        {% if student_form.username.errors %}
+                                            <ul class="errorlist">
+                                                {% for error in student_form.username.errors %}
+                                                    <li>{{ error }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </p>
+                                    <!-- Email Input -->
+                                    <p>
+                                        <label for="{{ student_form.email.id_for_label }}" class="my-custom-class">Email:</label>
+                                        <input type="{{ student_form.email.field.widget.input_type }}" name="{{ student_form.email.name }}" id="{{ student_form.email.id_for_label }}" class="my-custom-class" value="">
+                                        {% if student_form.email.errors %}
+                                            <ul class="errorlist">
+                                                {% for error in student_form.email.errors %}
+                                                    <li>{{ error }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </p>
+                                    <!-- Password 1 Input -->
+                                    <p>
+                                        <label for="{{ student_form.password1.id_for_label }}" class="my-custom-class">Password 1:</label>
+                                        <input type="{{ student_form.password1.field.widget.input_type }}" name="{{ student_form.password1.name }}" id="{{ student_form.password1.id_for_label }}" class="my-custom-class" value="">
+                                        {% if student_form.password1.errors %}
+                                            <ul class="errorlist">
+                                                {% for error in student_form.password1.errors %}
+                                                    <li>{{ error }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </p>
+                                    <!-- Password 2 Input -->
+                                    <p>
+                                        <label for="{{ student_form.password2.id_for_label }}" class="my-custom-class">Password 2:</label>
+                                        <input type="{{ student_form.password2.field.widget.input_type }}" name="{{ student_form.password2.name }}" id="{{ student_form.password2.id_for_label }}" class="my-custom-class" value="">
+                                        {% if student_form.password2.errors %}
+                                            <ul class="errorlist">
+                                                {% for error in student_form.password2.errors %}
+                                                    <li>{{ error }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </p>
+                                    <!-- Registration Input -->
+                                    <p>
+                                        <label for="{{ student_form.registration.id_for_label }}" class="my-custom-class">Registration:</label>
+                                        <input type="{{ student_form.registration.field.widget.input_type }}" name="{{ student_form.registration.name }}" id="{{ student_form.registration.id_for_label }}" class="my-custom-class" value="">
+                                        {% if student_form.registration.errors %}
+                                            <ul class="errorlist">
+                                                {% for error in student_form.registration.errors %}
+                                                    <li>{{ error }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </p>
+                                    <!-- University Input -->
+                                    <p>
+                                        <label for="{{ student_form.university.id_for_label }}">University:</label>
+                                        <select id="{{ student_form.university.id_for_label }}" name="{{ student_form.university.name }}" class="my-custom-class">
+                                            {% for value, label in student_form.university.field.choices %}
+                                                <option value="{{ value }}" {% if value == student_form.university.value %}selected{% endif %}>{{ label }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        {% if student_form.university.errors %}
+                                            <ul class="errorlist">
+                                                {% for error in student_form.university.errors %}
+                                                    <li>{{ error }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </p>
                                     <button type="submit" class="btn btn-primary" name="student_signup">Cadastrar Estudante</button>
                                 </form>
                             </div>
@@ -157,7 +255,66 @@
                                 <!-- NGO signup form -->
                                 <form method="post">
                                     {% csrf_token %}
-                                    {{ ong_form.as_p }}
+                                    <!-- Username Input -->
+                                    <p>
+                                        <label for="{{ ong_form.username.id_for_label }}" class="my-custom-class">Nome Completo:</label>
+                                        <input type="{{ ong_form.username.field.widget.input_type }}" name="{{ ong_form.username.name }}" id="{{ ong_form.username.id_for_label }}" class="my-custom-class" value="">
+                                        {% if ong_form.username.errors %}
+                                            <ul class="errorlist">
+                                                {% for error in ong_form.username.errors %}
+                                                    <li>{{ error }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </p>
+                                    <!-- Email Input -->
+                                    <p>
+                                        <label for="{{ ong_form.email.id_for_label }}" class="my-custom-class">Email:</label>
+                                        <input type="{{ ong_form.email.field.widget.input_type }}" name="{{ ong_form.email.name }}" id="{{ ong_form.email.id_for_label }}" class="my-custom-class" value="">
+                                        {% if ong_form.email.errors %}
+                                            <ul class="errorlist">
+                                                {% for error in ong_form.email.errors %}
+                                                    <li>{{ error }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </p>
+                                    <!-- Password 1 Input -->
+                                    <p>
+                                        <label for="{{ ong_form.password1.id_for_label }}" class="my-custom-class">Password 1:</label>
+                                        <input type="{{ ong_form.password1.field.widget.input_type }}" name="{{ ong_form.password1.name }}" id="{{ ong_form.password1.id_for_label }}" class="my-custom-class" value="">
+                                        {% if ong_form.password1.errors %}
+                                            <ul class="errorlist">
+                                                {% for error in ong_form.password1.errors %}
+                                                    <li>{{ error }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </p>
+                                    <!-- Password 2 Input -->
+                                    <p>
+                                        <label for="{{ ong_form.password2.id_for_label }}" class="my-custom-class">Password 2:</label>
+                                        <input type="{{ ong_form.password2.field.widget.input_type }}" name="{{ ong_form.password2.name }}" id="{{ ong_form.password2.id_for_label }}" class="my-custom-class" value="">
+                                        {% if ong_form.password2.errors %}
+                                            <ul class="errorlist">
+                                                {% for error in ong_form.password2.errors %}
+                                                    <li>{{ error }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </p>
+                                    <!-- CNPJ Input -->
+                                    <p>
+                                        <label for="{{ ong_form.cnpj.id_for_label }}" class="my-custom-class">CNPJ:</label>
+                                        <input type="{{ ong_form.cnpj.field.widget.input_type }}" name="{{ ong_form.cnpj.name }}" id="{{ ong_form.cnpj.id_for_label }}" class="my-custom-class" value="">
+                                        {% if ong_form.cnpj.errors %}
+                                            <ul class="errorlist">
+                                                {% for error in ong_form.cnpj.errors %}
+                                                    <li>{{ error }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </p>
                                     <button type="submit" class="btn btn-primary" name="ong_signup">Cadastrar ONG</button>
                                 </form>
                             </div>
