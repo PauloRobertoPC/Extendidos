@@ -31,62 +31,61 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         {% if user.is_authenticated %} 
-                            {% block aditional_menu_items %}
-                            {% endblock aditional_menu_items %}
-                            {% if user.is_ong %} 
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{% url 'project_create' %}">Criar Projeto(ONG)</a>
-                            </li>
-                            {% endif %}
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{% url 'project_list' %}">Projetos</a>
-                            </li>
-                            <!-- Notifications -->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16"> <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/> </svg>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                  <li><h4 class="dropdown-header">Notificações</h4></li>
-                                    {% for notification in notification_list %}
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li class="dropdown-item">{{ notification.message }}
-                                        {% if user.is_ong %}
-                                            <p><a href="{% url 'job_accept_deny' notification.pk %}?operation=1">Aceitar Candidatura</a></p>
-                                            <p><a href="{% url 'job_accept_deny' notification.pk %}?operation=0">Negar Candidatura</a></p>
-                                        {% else %}
-                                            <p><a href="{% url 'delete_notification' notification.pk%}">Deletar Notificação</a></p>
-                                        {% endif %}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </li>
-                            <!-- Options -->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Opções
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="{% url 'user_detail' user.pk %}">Perfil</a></li>
-                                    {% if user.is_student %}
-                                    <li><a class="dropdown-item" href="{% url 'student_edit' user.pk %}">Editar Perfil</a></li>
+                        {% block aditional_menu_items %}
+                        {% endblock aditional_menu_items %}
+                        {% if user.is_ong %} 
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'project_create' %}">Criar Projeto(ONG)</a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'project_list' %}">Projetos</a>
+                        </li>
+                        <!-- Notifications -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16"> <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/> </svg>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <li><h4 class="dropdown-header">Notificações</h4></li>
+                                {% for notification in notification_list %}
+                                <li><hr class="dropdown-divider"></li>
+                                <li class="dropdown-item">{{ notification.message }}
+                                    {% if user.is_ong %}
+                                    <p><a href="{% url 'job_accept_deny' notification.pk %}?operation=1">Aceitar Candidatura</a></p>
+                                    <p><a href="{% url 'job_accept_deny' notification.pk %}?operation=0">Negar Candidatura</a></p>
                                     {% else %}
-                                    <li><a class="dropdown-item" href="{% url 'ong_edit' user.pk %}">Editar Perfil</a></li>
+                                    <p><a href="{% url 'delete_notification' notification.pk%}">Deletar Notificação</a></p>
                                     {% endif %}
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-                                </ul>
-                            {% else %}
-                                <li class="nav-item" data-bs-toggle="modal" data-bs-target="#loginModal">
-                                    <a class="nav-link active" aria-current="page" href="#">Entrar</a>
                                 </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <!-- Options -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Opções
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'user_detail' user.pk %}">Perfil</a></li>
+                                {% if user.is_student %}
+                                <li><a class="dropdown-item" href="{% url 'student_edit' user.pk %}">Editar Perfil</a></li>
+                                {% else %}
+                                <li><a class="dropdown-item" href="{% url 'ong_edit' user.pk %}">Editar Perfil</a></li>
+                                {% endif %}
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                            </ul>
+                            {% else %}
+                            <li class="nav-item" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                <a class="nav-link active" aria-current="page" href="#">Entrar</a>
+                            </li>
                             {% endif %}
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
-
 
         <!-- Block Content -->
         <main>
@@ -96,6 +95,20 @@
 
         <!-- Carregar apenas se o usuário não for autenticado -->
         {% if not user.is_authenticated %} 
+
+        <!-- Notification/Toast -->
+        <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center w-100">
+            <div class="toast align-items-right" id="notificationToast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Notification</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Senha resetada! Cheque o seu email para informações adicionais.
+                </div>
+            </div>
+        </div>
+
         <!-- Login Modal -->
         <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -112,41 +125,78 @@
                         <form method="post">
                             {% csrf_token %}
                             <!-- Email Input -->
-                            <p>
-                                <label for="{{ login_form.username.id_for_label }}" class="form-label">Email:</label>
-                                <input type="{{ login_form.username.field.widget.input_type }}" name="{{ login_form.username.name }}" id="{{ login_form.username.id_for_label }}" class="form-control" value="">
-                                {% if login_form.username.errors %}
-                                    <ul class="errorlist">
-                                        {% for error in login_form.username.errors %}
-                                            <li>{{ error }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-                            </p>
+                            <div class="mb-3">
+                            <label for="{{ login_form.username.id_for_label }}" class="form-label">Email:</label>
+                            <input type="{{ login_form.username.field.widget.input_type }}" name="{{ login_form.username.name }}" id="{{ login_form.username.id_for_label }}" class="form-control" value="">
+                            {% if login_form.username.errors %}
+                            <ul class="errorlist">
+                                {% for error in login_form.username.errors %}
+                                <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            </div>
                             <!-- Password Input -->
-                            <p>
-                                <label for="{{ login_form.password.id_for_label }}" class="form-label">Password:</label>
-                                <input type="{{ login_form.password.field.widget.input_type }}" name="{{ login_form.password.name }}" id="{{ login_form.password.id_for_label }}" class="form-control">
-                                {% if login_form.password.errors %}
-                                    <ul class="errorlist">
-                                        {% for error in login_form.password.errors %}
-                                            <li>{{ error }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-                            </p>
+                            <div class="mb-3">
+                            <label for="{{ login_form.password.id_for_label }}" class="form-label">Password:</label>
+                            <input type="{{ login_form.password.field.widget.input_type }}" name="{{ login_form.password.name }}" id="{{ login_form.password.id_for_label }}" class="form-control">
+                            {% if login_form.password.errors %}
+                            <ul class="errorlist">
+                                {% for error in login_form.password.errors %}
+                                <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            </div>
                             <button type="submit" class="btn btn-primary" name="user_login">Login</button>
                         </form>
 
                         <hr>
                         <!-- Signup link -->
-                        <p>Esqueceu a senha? <a href="{% url 'password_reset' %}" >Recupere Aqui</a></p>
+                        <p>Esqueceu a senha? <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#resetModal">Recupere aqui</a></p>
                         <p>Não tem conta? <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#signupModal">Cadastre-se aqui</a></p>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Reset Password Modal -->
+        <div class="modal fade" id="resetModal" tabindex="-1" aria-labelledby="resetModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="resetModalLabel">Login</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <!-- Reset Password Form -->
+                        <form id="passwordResetForm" method="post" action="{% url 'password_reset' %}">
+                            {% csrf_token %}
+                            <!-- {{ password_reset_form.as_p }} -->
+                            <!-- Email Input -->
+                            <div class="mb-3">
+                            <label for="{{ password_reset_form.email.id_for_label }}" class="form-label">Email:</label>
+                            <input type="{{ password_reset_form.email.field.widget.input_type }}" name="{{ password_reset_form.email.name }}" id="{{ password_reset_form.email.id_for_label }}" class="form-control" value="">
+                            {% if password_reset_form.email.errors %}
+                            <ul class="errorlist">
+                                {% for error in password_reset_form.email.errors %}
+                                <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            </div>
+                            <button type="submit" class="btn btn-primary" onclick="handleFormSubmission(event)">Reset Password</button>
+                        </form>
+                        <hr>
+                        <!-- Signup link -->
+                        <p>Já tem conta? <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#loginModal">Logue aqui</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Signup Modal -->
         <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -181,11 +231,11 @@
                                         <label for="{{ student_form.username.id_for_label }}" class="form-label">Nome:</label>
                                         <input type="{{ student_form.username.field.widget.input_type }}" name="{{ student_form.username.name }}" id="{{ student_form.username.id_for_label }}" class="form-control" value="">
                                         {% if student_form.username.errors %}
-                                            <ul class="errorlist">
-                                                {% for error in student_form.username.errors %}
-                                                    <li>{{ error }}</li>
-                                                {% endfor %}
-                                            </ul>
+                                        <ul class="errorlist">
+                                            {% for error in student_form.username.errors %}
+                                            <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
                                         {% endif %}
                                     </div>
                                     <!-- Email Input -->
@@ -193,11 +243,11 @@
                                         <label for="{{ student_form.email.id_for_label }}" class="form-label">Email:</label>
                                         <input type="{{ student_form.email.field.widget.input_type }}" name="{{ student_form.email.name }}" id="{{ student_form.email.id_for_label }}" class="form-control" value="">
                                         {% if student_form.email.errors %}
-                                            <ul class="errorlist">
-                                                {% for error in student_form.email.errors %}
-                                                    <li>{{ error }}</li>
-                                                {% endfor %}
-                                            </ul>
+                                        <ul class="errorlist">
+                                            {% for error in student_form.email.errors %}
+                                            <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
                                         {% endif %}
                                     </div>
                                     <!-- Password 1 Input -->
@@ -205,11 +255,11 @@
                                         <label for="{{ student_form.password1.id_for_label }}" class="form-label">Password 1:</label>
                                         <input type="{{ student_form.password1.field.widget.input_type }}" name="{{ student_form.password1.name }}" id="{{ student_form.password1.id_for_label }}" class="form-control" value="">
                                         {% if student_form.password1.errors %}
-                                            <ul class="errorlist">
-                                                {% for error in student_form.password1.errors %}
-                                                    <li>{{ error }}</li>
-                                                {% endfor %}
-                                            </ul>
+                                        <ul class="errorlist">
+                                            {% for error in student_form.password1.errors %}
+                                            <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
                                         {% endif %}
                                     </div>
                                     <!-- Password 2 Input -->
@@ -217,11 +267,11 @@
                                         <label for="{{ student_form.password2.id_for_label }}" class="form-label">Password 2:</label>
                                         <input type="{{ student_form.password2.field.widget.input_type }}" name="{{ student_form.password2.name }}" id="{{ student_form.password2.id_for_label }}" class="form-control" value="">
                                         {% if student_form.password2.errors %}
-                                            <ul class="errorlist">
-                                                {% for error in student_form.password2.errors %}
-                                                    <li>{{ error }}</li>
-                                                {% endfor %}
-                                            </ul>
+                                        <ul class="errorlist">
+                                            {% for error in student_form.password2.errors %}
+                                            <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
                                         {% endif %}
                                     </div>
                                     <!-- Registration Input -->
@@ -229,11 +279,11 @@
                                         <label for="{{ student_form.registration.id_for_label }}" class="form-label">Registration:</label>
                                         <input type="{{ student_form.registration.field.widget.input_type }}" name="{{ student_form.registration.name }}" id="{{ student_form.registration.id_for_label }}" class="form-control" value="">
                                         {% if student_form.registration.errors %}
-                                            <ul class="errorlist">
-                                                {% for error in student_form.registration.errors %}
-                                                    <li>{{ error }}</li>
-                                                {% endfor %}
-                                            </ul>
+                                        <ul class="errorlist">
+                                            {% for error in student_form.registration.errors %}
+                                            <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
                                         {% endif %}
                                     </div>
                                     <!-- University Input -->
@@ -241,15 +291,15 @@
                                         <label for="{{ student_form.university.id_for_label }}", class"form-label">University:</label>
                                         <select id="{{ student_form.university.id_for_label }}" name="{{ student_form.university.name }}" class="form-control">
                                             {% for value, label in student_form.university.field.choices %}
-                                                <option value="{{ value }}" {% if value == student_form.university.value %}selected{% endif %}>{{ label }}</option>
+                                            <option value="{{ value }}" {% if value == student_form.university.value %}selected{% endif %}>{{ label }}</option>
                                             {% endfor %}
                                         </select>
                                         {% if student_form.university.errors %}
-                                            <ul class="errorlist">
-                                                {% for error in student_form.university.errors %}
-                                                    <li>{{ error }}</li>
-                                                {% endfor %}
-                                            </ul>
+                                        <ul class="errorlist">
+                                            {% for error in student_form.university.errors %}
+                                            <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
                                         {% endif %}
                                     </div>
                                     <button type="submit" class="btn btn-primary" name="student_signup">Cadastrar Estudante</button>
@@ -266,23 +316,23 @@
                                         <label for="{{ ong_form.username.id_for_label }}" class="form-label">Nome Completo:</label>
                                         <input type="{{ ong_form.username.field.widget.input_type }}" name="{{ ong_form.username.name }}" id="{{ ong_form.username.id_for_label }}" class="form-control" value="">
                                         {% if ong_form.username.errors %}
-                                            <ul class="errorlist">
-                                                {% for error in ong_form.username.errors %}
-                                                    <li>{{ error }}</li>
-                                                {% endfor %}
-                                            </ul>
+                                        <ul class="errorlist">
+                                            {% for error in ong_form.username.errors %}
+                                            <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
                                         {% endif %}
                                     </div>
                                     <!-- Email Input -->
                                     <div class="mb-3">
-                                       <label for="{{ ong_form.email.id_for_label }}" class="form-labal">Email:</label>
+                                        <label for="{{ ong_form.email.id_for_label }}" class="form-labal">Email:</label>
                                         <input type="{{ ong_form.email.field.widget.input_type }}" name="{{ ong_form.email.name }}" id="{{ ong_form.email.id_for_label }}" class="form-control" value="">
                                         {% if ong_form.email.errors %}
-                                            <ul class="errorlist">
-                                                {% for error in ong_form.email.errors %}
-                                                    <li>{{ error }}</li>
-                                                {% endfor %}
-                                            </ul>
+                                        <ul class="errorlist">
+                                            {% for error in ong_form.email.errors %}
+                                            <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
                                         {% endif %}
                                     </div>
                                     <!-- Password 1 Input -->
@@ -290,11 +340,11 @@
                                         <label for="{{ ong_form.password1.id_for_label }}" class="form-label">Password 1:</label>
                                         <input type="{{ ong_form.password1.field.widget.input_type }}" name="{{ ong_form.password1.name }}" id="{{ ong_form.password1.id_for_label }}" class="form-control" value="">
                                         {% if ong_form.password1.errors %}
-                                            <ul class="errorlist">
-                                                {% for error in ong_form.password1.errors %}
-                                                    <li>{{ error }}</li>
-                                                {% endfor %}
-                                            </ul>
+                                        <ul class="errorlist">
+                                            {% for error in ong_form.password1.errors %}
+                                            <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
                                         {% endif %}
                                     </div>
                                     <!-- Password 2 Input -->
@@ -302,11 +352,11 @@
                                         <label for="{{ ong_form.password2.id_for_label }}" class="form-label">Password 2:</label>
                                         <input type="{{ ong_form.password2.field.widget.input_type }}" name="{{ ong_form.password2.name }}" id="{{ ong_form.password2.id_for_label }}" class="form-control" value="">
                                         {% if ong_form.password2.errors %}
-                                            <ul class="errorlist">
-                                                {% for error in ong_form.password2.errors %}
-                                                    <li>{{ error }}</li>
-                                                {% endfor %}
-                                            </ul>
+                                        <ul class="errorlist">
+                                            {% for error in ong_form.password2.errors %}
+                                            <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
                                         {% endif %}
                                     </div>
                                     <!-- CNPJ Input -->
@@ -314,11 +364,11 @@
                                         <label for="{{ ong_form.cnpj.id_for_label }}" class="form-label">CNPJ:</label>
                                         <input type="{{ ong_form.cnpj.field.widget.input_type }}" name="{{ ong_form.cnpj.name }}" id="{{ ong_form.cnpj.id_for_label }}" class="form-control" value="">
                                         {% if ong_form.cnpj.errors %}
-                                            <ul class="errorlist">
-                                                {% for error in ong_form.cnpj.errors %}
-                                                    <li>{{ error }}</li>
-                                                {% endfor %}
-                                            </ul>
+                                        <ul class="errorlist">
+                                            {% for error in ong_form.cnpj.errors %}
+                                            <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
                                         {% endif %}
                                     </div>
                                     <button type="submit" class="btn btn-primary" name="ong_signup">Cadastrar ONG</button>
@@ -346,9 +396,32 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/js/standalone/selectize.min.js"></script>
 
         <script>
-        $(document).ready(function() {
-            $('#{{ student_form.university.id_for_label }}').selectize();
-        });
+            $(document).ready(function() {
+                $('#{{ student_form.university.id_for_label }}').selectize();
+            });
+            function handleFormSubmission(event) {
+                console.log("TESTE");
+                event.preventDefault(); // Prevent the default form submission behavior
+
+                //Closing the modal to show the notification/toast
+                $('#resetModal').modal('hide');
+
+                // Show the Bootstrap toast notification
+                var toast = new bootstrap.Toast(document.getElementById('notificationToast'));
+                toast.show();
+
+                // Perform the server-side action via AJAX
+                var form = document.getElementById('passwordResetForm');
+                var formData = new FormData(form);
+
+                var xhr = new XMLHttpRequest();
+                xhr.open(form.method, form.action);
+                xhr.onload = function() {
+                    // Handle the response from the server if needed
+                };
+                xhr.send(formData);
+            }
+
         </script>
     </body>
 </html>
