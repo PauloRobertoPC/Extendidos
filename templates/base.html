@@ -25,44 +25,62 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         {% if user.is_authenticated %} 
-                        {% block aditional_menu_items %}
-                        {% endblock aditional_menu_items %}
-                        {% if user.is_ong %} 
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url 'project_create' %}">Criar Projeto(ONG)</a>
-                        </li>
-                        {% endif %}
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url 'project_list' %}">Projetos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url 'notification_list' %}">Notificações</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Opções
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{% url 'user_detail' user.pk %}">Perfil</a></li>
-                                {% if user.is_student %}
-                                <li><a class="dropdown-item" href="{% url 'student_edit' user.pk %}">Editar Perfil</a></li>
-                                {% else %}
-                                <li><a class="dropdown-item" href="{% url 'ong_edit' user.pk %}">Editar Perfil</a></li>
-                                {% endif %}
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-                            </ul>
+                            {% block aditional_menu_items %}
+                            {% endblock aditional_menu_items %}
+                            {% if user.is_ong %} 
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="{% url 'project_create' %}">Criar Projeto(ONG)</a>
+                            </li>
+                            {% endif %}
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="{% url 'project_list' %}">Projetos</a>
+                            </li>
+                            <!-- Notifications -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16"> <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/> </svg>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                  <li><h4 class="dropdown-header">Notificações</h4></li>
+                                    {% for notification in notification_list %}
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li class="dropdown-item">{{ notification.message }}
+                                        {% if user.is_ong %}
+                                            <p><a href="{% url 'job_accept_deny' notification.pk %}?operation=1">Aceitar Candidatura</a></p>
+                                            <p><a href="{% url 'job_accept_deny' notification.pk %}?operation=0">Negar Candidatura</a></p>
+                                        {% else %}
+                                            <p><a href="{% url 'delete_notification' notification.pk%}">Deletar Notificação</a></p>
+                                        {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            <!-- Options -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Opções
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="{% url 'user_detail' user.pk %}">Perfil</a></li>
+                                    {% if user.is_student %}
+                                    <li><a class="dropdown-item" href="{% url 'student_edit' user.pk %}">Editar Perfil</a></li>
+                                    {% else %}
+                                    <li><a class="dropdown-item" href="{% url 'ong_edit' user.pk %}">Editar Perfil</a></li>
+                                    {% endif %}
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                                </ul>
                             {% else %}
-
-                        <li class="nav-item" data-bs-toggle="modal" data-bs-target="#loginModal">
-                            <a class="nav-link active" aria-current="page" href="#">Entrar</a>
-                        </li>
-                        {% endif %}
+                                <li class="nav-item" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                    <a class="nav-link active" aria-current="page" href="#">Entrar</a>
+                                </li>
+                            {% endif %}
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
+
 
         <!-- Block Content -->
         <main>
@@ -88,21 +106,11 @@
                         <form method="post">
                             {% csrf_token %}
                             {{ login_form|crispy }}
-                            
-                            <!-- <div class="mb-3"> -->
-                            <!--     <label for="loginEmail" class="form-label">Email address</label> -->
-                            <!--     <input type="email" class="form-control" id="loginEmail" required> -->
-                            <!-- </div> -->
-                            <!-- <div class="mb-3"> -->
-                            <!--     <label for="loginPassword" class="form-label">Password</label> -->
-                            <!-- <input type="password" class="form-control" id="loginPassword" required> -->
-                            <!-- </div> -->
                             <button type="submit" class="btn btn-primary" name="user_login">Login</button>
                         </form>
 
                         <hr>
-
-                            <!-- Signup link -->
+                        <!-- Signup link -->
                         <p>Esqueceu a senha? <a href="{% url 'password_reset' %}" >Recupere Aqui</a></p>
                         <p>Não tem conta? <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#signupModal">Cadastre-se aqui</a></p>
                     </div>
@@ -155,7 +163,7 @@
                             </div>
                             <hr>
 
-                                <!-- Login link -->
+                            <!-- Login link -->
                             <p>Já tem conta? <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#loginModal">Logue aqui</a></p>
 
                         </div>
