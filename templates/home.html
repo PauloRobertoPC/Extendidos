@@ -4,12 +4,12 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
-<div id="carousel" class="carousel slide" data-bs-ride="carousel">
+<div id="carousel" class="carousel slide mb-4" data-bs-ride="carousel">
     <div class="carousel-indicators">
         <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
         <button type="button" data-bs-target="#carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
         <button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    </div>    
+    </div>
     <div class="carousel-inner">
         <div class="carousel-item active">
             <img src="{% static 'images/carousel/slide01.jpg' %}" class="d-block w-100" alt="estudantes em trabalho voluntário">
@@ -35,13 +35,62 @@
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
+        <span class="visually-hidden">Anterior</span>
     </button>
     <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
+        <span class="visually-hidden">Próximo</span>
     </button>
-  </div>
+</div>
+
+<div class="container">
+    <h1 class="text-center">Extendidos</h1>
+
+    <p class="fs-4">Bem-vindo ao Extendidos, uma plataforma dedicada a conectar estudantes universitários com oportunidades de trabalho voluntário em ONGs parceiras. Acreditamos que o voluntariado é uma poderosa ferramenta para o desenvolvimento pessoal e profissional, além de promover impacto social positivo em nossa comunidade.</p>
+
+    <p class="fs-4">Nosso principal objetivo é facilitar o processo de busca e seleção de trabalhos voluntários, fornecendo uma interface intuitiva e abrangente que permite aos estudantes encontrar oportunidades alinhadas aos seus interesses e áreas de estudo. Queremos proporcionar uma experiência significativa, na qual cada aluno possa se engajar em projetos que valorizem suas habilidades e paixões, ao mesmo tempo em que contribuem para causas que lhes sejam importantes.</p>
+</div>
+
+<hr class="w-75 mx-auto my-4"/>
+
+<div class="container">
+    <h2>Depoimentos</h2>
+        <blockquote class="blockquote">
+            <p>
+                Extendidos foi uma descoberta incrível para mim! Como estudante universitária, eu estava procurando maneiras de ganhar horas complementares de extensão e ao mesmo tempo fazer algo significativo. Graças a esta plataforma, pude encontrar uma oportunidade voluntária em uma ONG de proteção animal. Além de contribuir para uma causa que eu amo, aprendi novas habilidades e conheci pessoas maravilhosas.
+            </p>
+            <figcaption class="blockquote-footer">
+                Ana Maria de Paula
+            </figcaption>
+        </blockquote>
+        <blockquote class="blockquote">
+            <p>
+                "O Extendidos tem sido uma ferramenta valiosa para a nossa ONG. Encontrar estudantes universitários apaixonados pelo meio ambiente e dispostos a se dedicar ao trabalho voluntário em projetos de conservação nem sempre é fácil. No entanto, graças à plataforma Extendidos, temos sido capazes de encontrar voluntários comprometidos e conscientes que nos ajudam em nossa missão de preservar a natureza."
+            </p>
+            <figcaption class="blockquote-footer">
+                Matheus Cavalcante (Instituto Preservar)
+            </figcaption>
+        </blockquote>
+        <blockquote class="blockquote">
+            <p>
+                "O Extendidos tem sido uma parceria essencial para o nosso trabalho no Instituto Esperança. Através da plataforma, conseguimos encontrar estudantes universitários motivados e comprometidos em contribuir para a nossa causa. É gratificante ver como eles trazem novas ideias, entusiasmo e habilidades relevantes para nossos projetos. Agradecemos ao Extendidos por fornecer uma plataforma tão eficiente e por conectar nossa ONG a jovens talentosos e engajados."
+            </p>
+            <figcaption class="blockquote-footer">
+                Edmar de Oliveira (Casa Esperança)
+            </figcaption>
+        </blockquote>
+        <blockquote class="blockquote">
+            <p>
+                "Como estudante de ciências sociais, sempre tive um grande interesse em questões sociais e justiça. O Extendidos me permitiu encontrar um trabalho voluntário em uma ONG que luta pelos direitos humanos. Além de acumular horas de extensão, tive a oportunidade de aplicar meus conhecimentos teóricos na prática. A experiência foi enriquecedora e me ajudou a desenvolver habilidades interpessoais valiosas"
+            </p>
+            <figcaption class="blockquote-footer">
+                Raissa Borges
+            </figcaption>
+        </blockquote>
+    </div>
+</div>
+
+<!--
 {% if user.is_authenticated %}
     <h1>Usuário Autenticado Mostrar Jobs ou Projetos</h1>
     Hi {{ user.username }}, you are a 
@@ -53,4 +102,5 @@
 {% else %}
     <h1>Usuário Não Autenticado Mostrar Algo</h1>
 {% endif %}
+-->
 {% endblock content %}

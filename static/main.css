@@ -11,7 +11,7 @@ body {
     min-height: 100vh;
 }
 
-nav {
+nav, footer {
     background-color: var(--primary-color);
 }
 
@@ -44,7 +44,7 @@ nav {
     border-color: var(--primary-hover-color);
 }
 
-.nav-link, .navbar-brand {
+.nav-link, .navbar-brand, footer {
     color: var(--nav-link-color);
 }
 .nav-link:hover, .nav-link:focus, .nav-link:active, .navbar-brand:hover, .navbar-brand:focus, .navbar-brand:active {
