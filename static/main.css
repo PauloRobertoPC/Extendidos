@@ -1,10 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Satisfy');
+
 :root {
     --primary-color: #00B0AA;
     --primary-hover-color: #008C88;
+    --nav-link-color: #74FFFA;
+    --nav-link-hover-color: #FFF;
 }
 
 body {
     min-height: 100vh;
+}
+
+nav {
+    background-color: var(--primary-color);
+}
+
+.navbar-brand {
+    font-family: 'Satisfy';
+    font-size: 28px;
+    padding: 0;
 }
 
 /* Bootstrap colors override */
@@ -16,4 +30,11 @@ body {
 .btn-primary:hover, .btn-primary:active, .btn-primary:focus, .btn-primary:visited {
     background-color: var(--primary-hover-color);
     border-color: var(--primary-hover-color);
+}
+
+.nav-link, .navbar-brand {
+    color: var(--nav-link-color);
+}
+.nav-link:hover, .nav-link:focus, .nav-link:active, .navbar-brand:hover, .navbar-brand:focus, .navbar-brand:active {
+    color: var(--nav-link-hover-color);
 }
