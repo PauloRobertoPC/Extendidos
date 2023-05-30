@@ -21,6 +21,18 @@ nav {
     padding: 0;
 }
 
+.carousel-item img {
+    height: 80vh;
+    object-fit: cover;
+}
+
+.carousel-caption {
+    width: fit-content;
+    margin: 0 auto;
+    padding: 0.9rem;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
 /* Bootstrap colors override */
 .btn-primary {
     background-color: var(--primary-color);
