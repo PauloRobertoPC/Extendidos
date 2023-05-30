@@ -9,6 +9,9 @@
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+        <!-- Include Selectize CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/css/selectize.bootstrap4.min.css">
+
         {% load static %}
         <link rel="stylesheet" href="{% static 'main.css' %}">
 
@@ -110,8 +113,8 @@
                             {% csrf_token %}
                             <!-- Email Input -->
                             <p>
-                                <label for="{{ login_form.username.id_for_label }}" class="my-custom-class">Email:</label>
-                                <input type="{{ login_form.username.field.widget.input_type }}" name="{{ login_form.username.name }}" id="{{ login_form.username.id_for_label }}" class="my-custom-class" value="">
+                                <label for="{{ login_form.username.id_for_label }}" class="form-label">Email:</label>
+                                <input type="{{ login_form.username.field.widget.input_type }}" name="{{ login_form.username.name }}" id="{{ login_form.username.id_for_label }}" class="form-control" value="">
                                 {% if login_form.username.errors %}
                                     <ul class="errorlist">
                                         {% for error in login_form.username.errors %}
@@ -122,8 +125,8 @@
                             </p>
                             <!-- Password Input -->
                             <p>
-                                <label for="{{ login_form.password.id_for_label }}" class="another-class">Password:</label>
-                                <input type="{{ login_form.password.field.widget.input_type }}" name="{{ login_form.password.name }}" id="{{ login_form.password.id_for_label }}" class="another-class">
+                                <label for="{{ login_form.password.id_for_label }}" class="form-label">Password:</label>
+                                <input type="{{ login_form.password.field.widget.input_type }}" name="{{ login_form.password.name }}" id="{{ login_form.password.id_for_label }}" class="form-control">
                                 {% if login_form.password.errors %}
                                     <ul class="errorlist">
                                         {% for error in login_form.password.errors %}
@@ -174,9 +177,9 @@
                                 <form method="post">
                                     {% csrf_token %}
                                     <!-- Username Input -->
-                                    <p>
-                                        <label for="{{ student_form.username.id_for_label }}" class="my-custom-class">Nome Completo:</label>
-                                        <input type="{{ student_form.username.field.widget.input_type }}" name="{{ student_form.username.name }}" id="{{ student_form.username.id_for_label }}" class="my-custom-class" value="">
+                                    <div class="mb-3">
+                                        <label for="{{ student_form.username.id_for_label }}" class="form-label">Nome:</label>
+                                        <input type="{{ student_form.username.field.widget.input_type }}" name="{{ student_form.username.name }}" id="{{ student_form.username.id_for_label }}" class="form-control" value="">
                                         {% if student_form.username.errors %}
                                             <ul class="errorlist">
                                                 {% for error in student_form.username.errors %}
@@ -184,11 +187,11 @@
                                                 {% endfor %}
                                             </ul>
                                         {% endif %}
-                                    </p>
+                                    </div>
                                     <!-- Email Input -->
-                                    <p>
-                                        <label for="{{ student_form.email.id_for_label }}" class="my-custom-class">Email:</label>
-                                        <input type="{{ student_form.email.field.widget.input_type }}" name="{{ student_form.email.name }}" id="{{ student_form.email.id_for_label }}" class="my-custom-class" value="">
+                                    <div class="mb-3">
+                                        <label for="{{ student_form.email.id_for_label }}" class="form-label">Email:</label>
+                                        <input type="{{ student_form.email.field.widget.input_type }}" name="{{ student_form.email.name }}" id="{{ student_form.email.id_for_label }}" class="form-control" value="">
                                         {% if student_form.email.errors %}
                                             <ul class="errorlist">
                                                 {% for error in student_form.email.errors %}
@@ -196,11 +199,11 @@
                                                 {% endfor %}
                                             </ul>
                                         {% endif %}
-                                    </p>
+                                    </div>
                                     <!-- Password 1 Input -->
-                                    <p>
-                                        <label for="{{ student_form.password1.id_for_label }}" class="my-custom-class">Password 1:</label>
-                                        <input type="{{ student_form.password1.field.widget.input_type }}" name="{{ student_form.password1.name }}" id="{{ student_form.password1.id_for_label }}" class="my-custom-class" value="">
+                                    <div class="mb-3">
+                                        <label for="{{ student_form.password1.id_for_label }}" class="form-label">Password 1:</label>
+                                        <input type="{{ student_form.password1.field.widget.input_type }}" name="{{ student_form.password1.name }}" id="{{ student_form.password1.id_for_label }}" class="form-control" value="">
                                         {% if student_form.password1.errors %}
                                             <ul class="errorlist">
                                                 {% for error in student_form.password1.errors %}
@@ -208,11 +211,11 @@
                                                 {% endfor %}
                                             </ul>
                                         {% endif %}
-                                    </p>
+                                    </div>
                                     <!-- Password 2 Input -->
-                                    <p>
-                                        <label for="{{ student_form.password2.id_for_label }}" class="my-custom-class">Password 2:</label>
-                                        <input type="{{ student_form.password2.field.widget.input_type }}" name="{{ student_form.password2.name }}" id="{{ student_form.password2.id_for_label }}" class="my-custom-class" value="">
+                                    <div class="mb-3">
+                                        <label for="{{ student_form.password2.id_for_label }}" class="form-label">Password 2:</label>
+                                        <input type="{{ student_form.password2.field.widget.input_type }}" name="{{ student_form.password2.name }}" id="{{ student_form.password2.id_for_label }}" class="form-control" value="">
                                         {% if student_form.password2.errors %}
                                             <ul class="errorlist">
                                                 {% for error in student_form.password2.errors %}
@@ -220,11 +223,11 @@
                                                 {% endfor %}
                                             </ul>
                                         {% endif %}
-                                    </p>
+                                    </div>
                                     <!-- Registration Input -->
-                                    <p>
-                                        <label for="{{ student_form.registration.id_for_label }}" class="my-custom-class">Registration:</label>
-                                        <input type="{{ student_form.registration.field.widget.input_type }}" name="{{ student_form.registration.name }}" id="{{ student_form.registration.id_for_label }}" class="my-custom-class" value="">
+                                    <div class="mb-3">
+                                        <label for="{{ student_form.registration.id_for_label }}" class="form-label">Registration:</label>
+                                        <input type="{{ student_form.registration.field.widget.input_type }}" name="{{ student_form.registration.name }}" id="{{ student_form.registration.id_for_label }}" class="form-control" value="">
                                         {% if student_form.registration.errors %}
                                             <ul class="errorlist">
                                                 {% for error in student_form.registration.errors %}
@@ -232,11 +235,11 @@
                                                 {% endfor %}
                                             </ul>
                                         {% endif %}
-                                    </p>
+                                    </div>
                                     <!-- University Input -->
-                                    <p>
-                                        <label for="{{ student_form.university.id_for_label }}">University:</label>
-                                        <select id="{{ student_form.university.id_for_label }}" name="{{ student_form.university.name }}" class="my-custom-class">
+                                    <div class="mb-3">
+                                        <label for="{{ student_form.university.id_for_label }}", class"form-label">University:</label>
+                                        <select id="{{ student_form.university.id_for_label }}" name="{{ student_form.university.name }}" class="form-control">
                                             {% for value, label in student_form.university.field.choices %}
                                                 <option value="{{ value }}" {% if value == student_form.university.value %}selected{% endif %}>{{ label }}</option>
                                             {% endfor %}
@@ -248,7 +251,7 @@
                                                 {% endfor %}
                                             </ul>
                                         {% endif %}
-                                    </p>
+                                    </div>
                                     <button type="submit" class="btn btn-primary" name="student_signup">Cadastrar Estudante</button>
                                 </form>
                             </div>
@@ -259,9 +262,9 @@
                                 <form method="post">
                                     {% csrf_token %}
                                     <!-- Username Input -->
-                                    <p>
-                                        <label for="{{ ong_form.username.id_for_label }}" class="my-custom-class">Nome Completo:</label>
-                                        <input type="{{ ong_form.username.field.widget.input_type }}" name="{{ ong_form.username.name }}" id="{{ ong_form.username.id_for_label }}" class="my-custom-class" value="">
+                                    <div class="mb-3">
+                                        <label for="{{ ong_form.username.id_for_label }}" class="form-label">Nome Completo:</label>
+                                        <input type="{{ ong_form.username.field.widget.input_type }}" name="{{ ong_form.username.name }}" id="{{ ong_form.username.id_for_label }}" class="form-control" value="">
                                         {% if ong_form.username.errors %}
                                             <ul class="errorlist">
                                                 {% for error in ong_form.username.errors %}
@@ -269,11 +272,11 @@
                                                 {% endfor %}
                                             </ul>
                                         {% endif %}
-                                    </p>
+                                    </div>
                                     <!-- Email Input -->
-                                    <p>
-                                        <label for="{{ ong_form.email.id_for_label }}" class="my-custom-class">Email:</label>
-                                        <input type="{{ ong_form.email.field.widget.input_type }}" name="{{ ong_form.email.name }}" id="{{ ong_form.email.id_for_label }}" class="my-custom-class" value="">
+                                    <div class="mb-3">
+                                       <label for="{{ ong_form.email.id_for_label }}" class="form-labal">Email:</label>
+                                        <input type="{{ ong_form.email.field.widget.input_type }}" name="{{ ong_form.email.name }}" id="{{ ong_form.email.id_for_label }}" class="form-control" value="">
                                         {% if ong_form.email.errors %}
                                             <ul class="errorlist">
                                                 {% for error in ong_form.email.errors %}
@@ -281,11 +284,11 @@
                                                 {% endfor %}
                                             </ul>
                                         {% endif %}
-                                    </p>
+                                    </div>
                                     <!-- Password 1 Input -->
-                                    <p>
-                                        <label for="{{ ong_form.password1.id_for_label }}" class="my-custom-class">Password 1:</label>
-                                        <input type="{{ ong_form.password1.field.widget.input_type }}" name="{{ ong_form.password1.name }}" id="{{ ong_form.password1.id_for_label }}" class="my-custom-class" value="">
+                                    <div class="mb-3">
+                                        <label for="{{ ong_form.password1.id_for_label }}" class="form-label">Password 1:</label>
+                                        <input type="{{ ong_form.password1.field.widget.input_type }}" name="{{ ong_form.password1.name }}" id="{{ ong_form.password1.id_for_label }}" class="form-control" value="">
                                         {% if ong_form.password1.errors %}
                                             <ul class="errorlist">
                                                 {% for error in ong_form.password1.errors %}
@@ -293,11 +296,11 @@
                                                 {% endfor %}
                                             </ul>
                                         {% endif %}
-                                    </p>
+                                    </div>
                                     <!-- Password 2 Input -->
-                                    <p>
-                                        <label for="{{ ong_form.password2.id_for_label }}" class="my-custom-class">Password 2:</label>
-                                        <input type="{{ ong_form.password2.field.widget.input_type }}" name="{{ ong_form.password2.name }}" id="{{ ong_form.password2.id_for_label }}" class="my-custom-class" value="">
+                                    <div class="mb-3">
+                                        <label for="{{ ong_form.password2.id_for_label }}" class="form-label">Password 2:</label>
+                                        <input type="{{ ong_form.password2.field.widget.input_type }}" name="{{ ong_form.password2.name }}" id="{{ ong_form.password2.id_for_label }}" class="form-control" value="">
                                         {% if ong_form.password2.errors %}
                                             <ul class="errorlist">
                                                 {% for error in ong_form.password2.errors %}
@@ -305,11 +308,11 @@
                                                 {% endfor %}
                                             </ul>
                                         {% endif %}
-                                    </p>
+                                    </div>
                                     <!-- CNPJ Input -->
-                                    <p>
-                                        <label for="{{ ong_form.cnpj.id_for_label }}" class="my-custom-class">CNPJ:</label>
-                                        <input type="{{ ong_form.cnpj.field.widget.input_type }}" name="{{ ong_form.cnpj.name }}" id="{{ ong_form.cnpj.id_for_label }}" class="my-custom-class" value="">
+                                    <div class="mb-3">
+                                        <label for="{{ ong_form.cnpj.id_for_label }}" class="form-label">CNPJ:</label>
+                                        <input type="{{ ong_form.cnpj.field.widget.input_type }}" name="{{ ong_form.cnpj.name }}" id="{{ ong_form.cnpj.id_for_label }}" class="form-control" value="">
                                         {% if ong_form.cnpj.errors %}
                                             <ul class="errorlist">
                                                 {% for error in ong_form.cnpj.errors %}
@@ -317,7 +320,7 @@
                                                 {% endfor %}
                                             </ul>
                                         {% endif %}
-                                    </p>
+                                    </div>
                                     <button type="submit" class="btn btn-primary" name="ong_signup">Cadastrar ONG</button>
                                 </form>
                             </div>
@@ -335,5 +338,17 @@
 
         <!-- Option 1: Bootstrap Bundle with Popper -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+        <!-- Include jQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+        <!-- Include Selectize JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/js/standalone/selectize.min.js"></script>
+
+        <script>
+        $(document).ready(function() {
+            $('#{{ student_form.university.id_for_label }}').selectize();
+        });
+        </script>
     </body>
 </html>
