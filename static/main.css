@@ -3,8 +3,10 @@
 :root {
     --primary-color: #00B0AA;
     --primary-hover-color: #008C88;
+    --primary-color-25: rgba(0, 176, 170, .25);
     --nav-link-color: #74FFFA;
     --nav-link-hover-color: #FFF;
+    --bs-link-hover-color: #9eb000;
 }
 
 body {
@@ -34,14 +36,28 @@ nav, footer {
 }
 
 /* Bootstrap colors override */
-.btn-primary {
-    background-color: var(--primary-color);
+.btn {
+    color: var(--primary-color);
     border-color: var(--primary-color);
 }
 
-.btn-primary:hover, .btn-primary:active, .btn-primary:focus, .btn-primary:visited {
-    background-color: var(--primary-hover-color);
-    border-color: var(--primary-hover-color);
+.btn:focus {
+    box-shadow: 0 0 0 .25rem var(--primary-color-25);
+}
+
+.btn:hover, .btn:active, .btn.active, .btn:focus, .btn:visited {
+    background-color: var(--primary-color);
+    color: #FFF;
+}
+
+.btn-primary {
+    background-color: var(--primary-color) !important;
+    color: #FFF !important;
+}
+
+.btn-primary:hover, .btn-primary:active, .btn-primary.active, .btn-primary:focus, .btn-primary:visited {
+    background-color: var(--primary-hover-color) !important;
+    border-color: var(--primary-hover-color) !important;
 }
 
 .nav-link, .navbar-brand, footer {

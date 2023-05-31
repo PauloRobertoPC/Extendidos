@@ -142,7 +142,7 @@
                             </div>
                             <!-- Password Input -->
                             <div class="mb-3">
-                            <label for="{{ login_form.password.id_for_label }}" class="form-label">Password:</label>
+                            <label for="{{ login_form.password.id_for_label }}" class="form-label">Senha:</label>
                             <input type="{{ login_form.password.field.widget.input_type }}" name="{{ login_form.password.name }}" id="{{ login_form.password.id_for_label }}" class="form-control">
                             {% if login_form.password.errors %}
                             <ul class="errorlist">
@@ -214,12 +214,12 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                         <!-- Signup options -->
-                        <ul class="nav nav-pills mb-3" id="signupOptions" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="student-tab" data-bs-toggle="pill" data-bs-target="#studentSignup" type="button" role="tab" aria-controls="studentSignup" aria-selected="true">Cadastre-se como Estudante</button>
+                        <ul class="nav nav-pills mb-3 row" id="signupOptions" role="tablist">
+                            <li class="nav-item col-6" role="presentation">
+                                <button class="btn active w-100" id="student-tab" data-bs-toggle="pill" data-bs-target="#studentSignup" type="button" role="tab" aria-controls="studentSignup" aria-selected="true">Estudante</button>
                             </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="ngo-tab" data-bs-toggle="pill" data-bs-target="#ngoSignup" type="button" role="tab" aria-controls="ngoSignup" aria-selected="false">Cadastre-se como ONG</button>
+                            <li class="nav-item col-6" role="presentation">
+                                <button class="btn w-100" id="ngo-tab" data-bs-toggle="pill" data-bs-target="#ngoSignup" type="button" role="tab" aria-controls="ngoSignup" aria-selected="false">ONG</button>
                             </li>
                         </ul>
 
@@ -232,7 +232,7 @@
                                     {% csrf_token %}
                                     <!-- Username Input -->
                                     <div class="mb-3">
-                                        <label for="{{ student_form.username.id_for_label }}" class="form-label">Nome:</label>
+                                        <label for="{{ student_form.username.id_for_label }}" class="form-label">Nome Completo:</label>
                                         <input type="{{ student_form.username.field.widget.input_type }}" name="{{ student_form.username.name }}" id="{{ student_form.username.id_for_label }}" class="form-control" value="">
                                         {% if student_form.username.errors %}
                                         <ul class="errorlist">
@@ -256,7 +256,7 @@
                                     </div>
                                     <!-- Password 1 Input -->
                                     <div class="mb-3">
-                                        <label for="{{ student_form.password1.id_for_label }}" class="form-label">Password 1:</label>
+                                        <label for="{{ student_form.password1.id_for_label }}" class="form-label">Senha:</label>
                                         <input type="{{ student_form.password1.field.widget.input_type }}" name="{{ student_form.password1.name }}" id="{{ student_form.password1.id_for_label }}" class="form-control" value="">
                                         {% if student_form.password1.errors %}
                                         <ul class="errorlist">
@@ -268,7 +268,7 @@
                                     </div>
                                     <!-- Password 2 Input -->
                                     <div class="mb-3">
-                                        <label for="{{ student_form.password2.id_for_label }}" class="form-label">Password 2:</label>
+                                        <label for="{{ student_form.password2.id_for_label }}" class="form-label">Confirme a senha:</label>
                                         <input type="{{ student_form.password2.field.widget.input_type }}" name="{{ student_form.password2.name }}" id="{{ student_form.password2.id_for_label }}" class="form-control" value="">
                                         {% if student_form.password2.errors %}
                                         <ul class="errorlist">
@@ -280,7 +280,7 @@
                                     </div>
                                     <!-- Registration Input -->
                                     <div class="mb-3">
-                                        <label for="{{ student_form.registration.id_for_label }}" class="form-label">Registration:</label>
+                                        <label for="{{ student_form.registration.id_for_label }}" class="form-label">Matrícula:</label>
                                         <input type="{{ student_form.registration.field.widget.input_type }}" name="{{ student_form.registration.name }}" id="{{ student_form.registration.id_for_label }}" class="form-control" value="">
                                         {% if student_form.registration.errors %}
                                         <ul class="errorlist">
@@ -292,7 +292,7 @@
                                     </div>
                                     <!-- University Input -->
                                     <div class="mb-3">
-                                        <label for="{{ student_form.university.id_for_label }}", class"form-label">University:</label>
+                                        <label for="{{ student_form.university.id_for_label }}" class="form-label">Universidade:</label>
                                         <select id="{{ student_form.university.id_for_label }}" name="{{ student_form.university.name }}" class="form-control">
                                             {% for value, label in student_form.university.field.choices %}
                                             <option value="{{ value }}" {% if value == student_form.university.value %}selected{% endif %}>{{ label }}</option>
@@ -317,7 +317,7 @@
                                     {% csrf_token %}
                                     <!-- Username Input -->
                                     <div class="mb-3">
-                                        <label for="{{ ong_form.username.id_for_label }}" class="form-label">Nome Completo:</label>
+                                        <label for="{{ ong_form.username.id_for_label }}" class="form-label">Nome:</label>
                                         <input type="{{ ong_form.username.field.widget.input_type }}" name="{{ ong_form.username.name }}" id="{{ ong_form.username.id_for_label }}" class="form-control" value="">
                                         {% if ong_form.username.errors %}
                                         <ul class="errorlist">
@@ -341,7 +341,7 @@
                                     </div>
                                     <!-- Password 1 Input -->
                                     <div class="mb-3">
-                                        <label for="{{ ong_form.password1.id_for_label }}" class="form-label">Password 1:</label>
+                                        <label for="{{ ong_form.password1.id_for_label }}" class="form-label">Senha:</label>
                                         <input type="{{ ong_form.password1.field.widget.input_type }}" name="{{ ong_form.password1.name }}" id="{{ ong_form.password1.id_for_label }}" class="form-control" value="">
                                         {% if ong_form.password1.errors %}
                                         <ul class="errorlist">
@@ -353,7 +353,7 @@
                                     </div>
                                     <!-- Password 2 Input -->
                                     <div class="mb-3">
-                                        <label for="{{ ong_form.password2.id_for_label }}" class="form-label">Password 2:</label>
+                                        <label for="{{ ong_form.password2.id_for_label }}" class="form-label">Confirme a senha:</label>
                                         <input type="{{ ong_form.password2.field.widget.input_type }}" name="{{ ong_form.password2.name }}" id="{{ ong_form.password2.id_for_label }}" class="form-control" value="">
                                         {% if ong_form.password2.errors %}
                                         <ul class="errorlist">
