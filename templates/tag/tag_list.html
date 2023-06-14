@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+{% for tag in tag_list %}
+<div class="post-entry">
+    <p>{{ tag.tag_name }}</p>
+    <p><a href="{% url 'tag_delete' tag.pk %}">- Deletar Tag</a></p>
+</div>
+{% endfor %}
+{% endblock content %}

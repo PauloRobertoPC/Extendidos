@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Project,Job,Notification
+from .models import Project, Job, Notification, Tag
 from django.db.models import Q
 from accounts.models import CustomUser
 
@@ -188,3 +188,23 @@ class NotificationDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView
         if(user.is_ong):
             return False
         return notification.student == user.student
+
+class TagCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Tag
+    template_name = 'tag/tag_create.html'
+    fields = ["tag_name"]
+
+    def test_func(self):
+        return True
+
+class TagListView(LoginRequiredMixin, ListView):
+    model = Tag
+    template_name = "tag/tag_list.html"
+
+class TagDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Tag
+    template_name = "tag/tag_delete.html"
+    success_url = reverse_lazy("home")
+
+    def test_func(self):
+        return True

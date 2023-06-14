@@ -3,6 +3,7 @@
 <div>
     <h1> PROJETO </h1>
     <p>{{ project.title }}</p>
+    <img src="{{ project.cover.url}}">
     <p>{{ project.description }}</p>
     <p>{{ project.location }}</p>
     {% if user.is_authenticated %}
