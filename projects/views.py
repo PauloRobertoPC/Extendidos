@@ -1,4 +1,6 @@
+from os import walk
 from django.shortcuts import redirect
+from django import forms
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -12,8 +14,19 @@ class ProjectsCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     template_name = 'project/project_create.html'
     fields = ['title', 'description', 'location',]
 
-    def form_valid(self,form):
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all())
+        form.fields['tags'] = tags
+        return form
+
+    def form_valid(self, form):
         form.instance.ong = self.request.user.ong
+        project = form.save(commit=False)
+        project.save()
+        selected_tags = form.cleaned_data.get('tags')
+        for tag in selected_tags:
+            tag.project.add(project)
         return super().form_valid(form)
 
     def test_func(self):
@@ -40,7 +53,26 @@ class ProjectDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 class ProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Project
     template_name = 'project/project_edit.html'
-    fields = ['title', 'description', 'location']
+    fields = ['title', 'description', 'location', 'cover',]
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        project = self.get_object()
+        print(project)
+        tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all())
+        selected_tags = project.tag_set.all()
+        form.fields['tags'] = tags
+        form.fields['tags'].initial = selected_tags
+        return form
+
+    def form_valid(self, form):
+        project = form.save(commit=False)
+        project.save()
+        selected_tags = form.cleaned_data.get('tags')
+        for tag in selected_tags:
+            tag.project.add(project)
+        return super().form_valid(form)
+
 
     def test_func(self):
         project = self.get_object()
@@ -51,17 +83,45 @@ class JobCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     template_name = 'job/job_create.html'
     fields = ['title','description','location','available_vacancies', 'is_active', 'job_begin','job_end']
 
-    def form_valid(self,form):
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all())
+        form.fields['tags'] = tags
+        return form
+
+    def form_valid(self, form):
         form.instance.project = Project.objects.get(pk = self.kwargs['pk']) 
+        job = form.save(commit=False)
+        job.save()
+        selected_tags = form.cleaned_data.get('tags')
+        for tag in selected_tags:
+            tag.job.add(job)
         return super().form_valid(form)
 
     def test_func(self):
-        job = self.get_object()
-        return job.project.ong.user == self.request.user
+        pk = self.kwargs.get("pk")
+        project = Project.objects.get(pk=pk)
+        return project.ong.user == self.request.user
+
 
 class JobListView(LoginRequiredMixin, ListView):
     model = Job
     template_name = "job/job_list.html"
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all())
+        form.fields['tags'] = tags
+        return form
+
+    def form_valid(self, form):
+        form.instance.project = Project.objects.get(pk = self.kwargs['pk']) 
+        job = form.save(commit=False)
+        job.save()
+        selected_tags = form.cleaned_data.get('tags')
+        for tag in selected_tags:
+            tag.job.add(job)
+        return super().form_valid(form)
 
     def get_queryset(self):
         pk = self.kwargs.get("pk")
@@ -74,7 +134,24 @@ class JobDetailView(LoginRequiredMixin, DetailView):
 class JobUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Job
     template_name = 'job/job_edit.html'
-    fields = ['title','description','location','available_vacancies', 'is_active', 'job_begin','job_end']
+    fields = ['title', 'description', 'location', 'available_vacancies', 'is_active', 'job_begin', 'job_end', 'cover']
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        job = self.get_object()
+        tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all())
+        selected_tags = job.tag_set.all()
+        form.fields['tags'] = tags
+        form.fields['tags'].initial = selected_tags
+        return form
+
+    def form_valid(self, form):
+        job = form.save(commit=False)
+        job.save()
+        selected_tags = form.cleaned_data.get('tags')
+        for tag in selected_tags:
+            tag.job.add(job)
+        return super().form_valid(form)
 
     def test_func(self):
         job = self.get_object()
