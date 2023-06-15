@@ -32,6 +32,9 @@ class ProjectsCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         obj = self.request.user
         return obj.is_ong
 
+    def get_success_url(self):
+        return reverse_lazy('project_detail', kwargs={'pk': self.object.pk})
+
 class ProjectsListView(LoginRequiredMixin, ListView):
     model = Project
     template_name = "project/project_list.html"
@@ -77,6 +80,9 @@ class ProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         project = self.get_object()
         return project.ong.user == self.request.user
 
+    def get_success_url(self):
+        return reverse_lazy('project_detail', kwargs={'pk': self.object.pk})
+
 class JobCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Job
     template_name = 'job/job_create.html'
@@ -101,6 +107,9 @@ class JobCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         pk = self.kwargs.get("pk")
         project = Project.objects.get(pk=pk)
         return project.ong.user == self.request.user
+
+    def get_success_url(self):
+        return reverse_lazy('job_detail', kwargs={'pk': self.object.pk})
 
 
 class JobListView(LoginRequiredMixin, ListView):
@@ -156,6 +165,9 @@ class JobUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         job = self.get_object()
         return job.project.ong.user == self.request.user
 
+    def get_success_url(self):
+        return reverse_lazy('job_detail', kwargs={'pk': self.object.pk})
+
 class JobApplyView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Notification
     template_name = 'job/job_apply.html'
@@ -165,7 +177,7 @@ class JobApplyView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         student = request.user.student
         messageArg = "O estudante '" + request.user.username + "' está se candidatando ao trabalho '" + job.title + "' do projeto '" + job.project.title + "'."
         Notification.objects.create(student = student, job = job, message=messageArg, directed_to_student=False)
-        return redirect('home')
+        return redirect("job_detail", pk=job.pk)
 
     def post(self, request, *args, **kwargs):
        return redirect('home')
@@ -177,13 +189,13 @@ class JobApplyView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         check1 = user.is_student == True
         if not check1:
             return False
-        #The student can apply to this only with he is not in the job
+        #The student can apply to this only when he is not in the job
         queryset_job = job.student.filter(pk=user.student.pk)
         check2 = not queryset_job.exists()
         # The student can't aplly to the job if he's waiting the ong answer the notification
         queryset_notification = Notification.objects.filter(student=user.student, job=job, directed_to_student=False)
         check3 = not queryset_notification.exists() 
-        return  check2 and check3
+        return  check2 and check3 and job.available_vacancies > 0;
 
 class JobAcceptDenyView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Notification
@@ -204,7 +216,7 @@ class JobAcceptDenyView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         notification.directed_to_student = True
         notification.message = messageArg
         notification.save()
-        return redirect('notification_list')
+        return redirect("job_detail", pk=job.pk)
 
     def post(self, request, *args, **kwargs):
        return redirect('home')
@@ -217,7 +229,6 @@ class JobAcceptDenyView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 class JobDismissView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Job
     template_name = 'job/dismiss_user.html'
-    success_url = reverse_lazy("home")
 
     def get(self, request, *args, **kwargs):
         job_pk=self.kwargs.get('pk1')
@@ -228,7 +239,7 @@ class JobDismissView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         job.save()
         messageArg = "A sua candidatura para o trabalho '" +job.title+  "' do projeto '" +job.project.title+ "' foi removida!"
         Notification.objects.create(student = student, job = job, message=messageArg)
-        return redirect('home')
+        return redirect("job_detail", pk=job.pk)
 
     def test_func(self):
         job_pk=self.kwargs.get('pk1')
@@ -256,7 +267,7 @@ class NotificationListView(LoginRequiredMixin,ListView):
 class NotificationDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Notification
     template_name = 'notification/notification_delete.html'
-    success_url = reverse_lazy("notification_list")
+    success_url = reverse_lazy("home")
 
     def test_func(self):
         notification = self.get_object()
@@ -269,6 +280,7 @@ class TagCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Tag
     template_name = 'tag/tag_create.html'
     fields = ["tag_name"]
+    success_url = reverse_lazy("tag_list")
 
     def test_func(self):
         return True
@@ -280,7 +292,7 @@ class TagListView(LoginRequiredMixin, ListView):
 class TagDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Tag
     template_name = "tag/tag_delete.html"
-    success_url = reverse_lazy("home")
+    success_url = reverse_lazy("tag_list")
 
     def test_func(self):
         return True

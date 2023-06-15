@@ -9,13 +9,18 @@
     <p>{{ job.available_vacancies }}</p>
     <p>{{ job.job_begin }}</p>
     <p>{{ job.job_end }}</p>
-    <p><a href="{% url 'job_edit' job.pk %}"> Editar Trabalho  </a></p>
+    {% if user.is_ong and user.ong == job.project.ong%} 
+        <p><a href="{% url 'job_edit' job.pk %}"> Editar Trabalho  </a></p>
+    {% endif %}
+    {% if user.is_student and user.student not in job.student.all and job.available_vacancies > 0 %}
+        <h2><a href="{% url 'job_apply' job.pk %}">Aplicar a vaga.</a></h2>
+    {% endif %}
     <h1>Estudantes Voluntários</h1>
     <h3>Mostra todos que estão cadastrdos</h3>
     {% for student in job.student.all %}
         <li>{{ student.user.username }} </li>
         <p><a href="{% url 'user_detail' student.user.pk %}"> Perfil do Estudante Acima</a></p>
-        {% if user.is_ong %} 
+        {% if user.is_ong and user.ong == job.project.ong%} 
             <p><a href="{% url 'dismiss_user' job.pk student.user.pk %}"> Dispensar Estudante </a></p>
         {% endif %}
     {% endfor %}
