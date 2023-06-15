@@ -108,6 +108,9 @@ class StudentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         obj = self.get_object()
         return obj == self.request.user
 
+    def get_success_url(self):
+        return reverse("user_detail", kwargs={"pk": self.kwargs.get("pk")})
+
 class OngUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = CustomUser
     template_name = "urd_user/ong_edit.html"
@@ -133,6 +136,9 @@ class OngUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         obj = self.get_object()
         return obj == self.request.user
+
+    def get_success_url(self):
+        return reverse("user_detail", kwargs={"pk": self.kwargs.get("pk")})
 
 class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = CustomUser
