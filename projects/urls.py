@@ -19,4 +19,6 @@ urlpatterns = [
     path("tag/create/", TagCreateView.as_view(), name="tag_create"),
     path("tag/list/", TagListView.as_view(), name="tag_list"),
     path("<int:pk>/tag/delete/", TagDeleteView.as_view(), name="tag_delete"),
+    path("projecttaglist", ProjectTagListView.as_view(), name="project_tag_list"),
+    path("jobtaglist", JobTagListView.as_view(), name="job_tag_list"),
 ]

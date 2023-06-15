@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # 3rd party
     "crispy_forms",
     "crispy_bootstrap5",
+    "django_select2",
     # Local
     'accounts.apps.AccountsConfig',
     'projects.apps.ProjectsConfig',

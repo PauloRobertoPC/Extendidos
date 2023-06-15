@@ -1,4 +1,3 @@
-from os import walk
 from django.shortcuts import redirect
 from django import forms
 from django.urls import reverse_lazy
@@ -285,3 +284,45 @@ class TagDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return True
+
+class ProjectTagListView(LoginRequiredMixin, ListView):
+    model = Project
+    template_name = 'project/project_tag_list.html'
+    context_object_name = 'projects'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tags'] = Tag.objects.all()
+        context['selected_tags'] = self.request.GET.getlist('tags[]')
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        selected_tags = self.request.GET.getlist('tags[]')
+        if selected_tags:
+            queryset = queryset.filter(tag__tag_name__in=selected_tags)
+
+        return queryset
+
+class JobTagListView(LoginRequiredMixin, ListView):
+    model = Job
+    template_name = 'job/job_tag_list.html'
+    context_object_name = 'jobs'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tags'] = Tag.objects.all()
+        context['selected_tags'] = self.request.GET.getlist('tags[]')
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        selected_tags = self.request.GET.getlist('tags[]')
+        if selected_tags:
+            queryset = queryset.filter(tag__tag_name__in=selected_tags)
+
+        return queryset

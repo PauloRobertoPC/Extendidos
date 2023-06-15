@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
+
+<div class="container">
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            <form method="get" action="">
+                <div>
+                    <label for="tag">Tags</label>
+                    <select name="tags[]" id="tags" multiple>
+                        {% for tag in tags %}
+                        <option value="{{ tag.tag_name }}"
+                            {% if tag.name in selected_tags %}selected{% endif %}>
+                            {{ tag.tag_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<h1>Fazer Cards</h1>
+
+<ul>
+    {% for project in projects %}
+     PROJETO </h1>
+    <li>{{ project.title }}</li>
+    <li><img src="{{ project.cover.url}}"></li>
+    <li>{{ project.description }}</li>
+    <li>{{ project.location }}</li>
+    <li><a href="{% url 'project_detail' project.pk %}">Ver Projeto</a></li>
+    {% empty %}
+    <li>No projects found.</li>
+    {% endfor %}
+</ul>
+
+{% if is_paginated %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current-page">{{ page_obj.number }}</span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endif %}
+
+<script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js"></script>
+<script>
+new MultiSelectTag('tags')
+</script>
+{% endblock content %}

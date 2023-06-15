@@ -39,8 +39,22 @@
                         </li>
                         {% endif %}
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url 'project_list' %}">Projetos</a>
+                            <a class="nav-link active" aria-current="page" href="{% url 'project_tag_list' %}">Projetos</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'job_tag_list' %}">Trabalhos</a>
+                        </li>
+                        {% if user.is_staff%}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Admin
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'tag_list' %}">Ver Tags</a></li>
+                                <li><a class="dropdown-item" href="{% url 'tag_create' %}">Cadastrar Tags</a></li>
+                            </ul>
+                        </li>
+                        {% endif %}
                         <!-- Notifications -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
