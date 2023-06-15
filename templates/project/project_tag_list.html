@@ -2,6 +2,7 @@
 {% block content %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
 
+<!-- Search Button -->
 <div class="container">
     <div class="row">
         <div class="col d-flex justify-content-center">
@@ -11,8 +12,8 @@
                     <select name="tags[]" id="tags" multiple>
                         {% for tag in tags %}
                         <option value="{{ tag.tag_name }}"
-                            {% if tag.name in selected_tags %}selected{% endif %}>
-                            {{ tag.tag_name }}
+                                {% if tag.name in selected_tags %}selected{% endif %}>
+                        {{ tag.tag_name }}
                         </option>
                         {% endfor %}
                     </select>
@@ -23,41 +24,53 @@
     </div>
 </div>
 
-<h1>Fazer Cards</h1>
-
-<ul>
-    {% for project in projects %}
-     PROJETO </h1>
-    <li>{{ project.title }}</li>
-    <li><img src="{{ project.cover.url}}"></li>
-    <li>{{ project.description }}</li>
-    <li>{{ project.location }}</li>
-    <li><a href="{% url 'project_detail' project.pk %}">Ver Projeto</a></li>
-    {% empty %}
-    <li>No projects found.</li>
-    {% endfor %}
-</ul>
-
-{% if is_paginated %}
-    <div class="pagination">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-            {% endif %}
-
-            <span class="current-page">{{ page_obj.number }}</span>
-
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
+<!-- Cards -->
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 justify-content-center">
+        {% for project in projects %}
+        <div class="col mb-4 d-flex justify-content-center">
+            <div class="card" style="width: 18rem;">
+                <img src="{{ project.cover.url}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h4 class="card-title">{{ project.title }}</h4>
+                    por {{ project.ong }}
+                    <p class="card-text"> {{ project.description }} {{ project.location }}</p>
+                    <a href="{% url 'project_detail' project.pk %}" class="btn btn-primary">Ver Projeto</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        Nenhuma Projeto Encontrado
+        {% endfor %}
     </div>
+</div>
+
+<!-- Pagination -->
+{% if is_paginated %}
+
+<nav id="pagination" aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" aria-disabled="true">Anterior</a>
+        </li>
+        {% endif %}
+
+        <li class="page-item"><a class="page-link" href="#">{{ page_obj.number }}</a></li>
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Próximo</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+
 {% endif %}
 
 <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js"></script>
 <script>
-new MultiSelectTag('tags')
+    new MultiSelectTag('tags')
 </script>
 {% endblock content %}

@@ -289,7 +289,7 @@ class ProjectTagListView(LoginRequiredMixin, ListView):
     model = Project
     template_name = 'project/project_tag_list.html'
     context_object_name = 'projects'
-    paginate_by = 10
+    paginate_by = 12
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -310,7 +310,7 @@ class JobTagListView(LoginRequiredMixin, ListView):
     model = Job
     template_name = 'job/job_tag_list.html'
     context_object_name = 'jobs'
-    paginate_by = 10
+    paginate_by = 12
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
