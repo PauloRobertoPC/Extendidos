@@ -139,6 +139,22 @@ class JobDetailView(LoginRequiredMixin, DetailView):
     model = Job
     template_name = "job/job_detail.html"
 
+    # Using the method below to calculate 'notification_received', that is 
+    # true if the student already apply to the job
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        # if the user is a ong the context is the normal
+        if user.is_ong:
+            return context
+
+        student = user.student
+        job = Job.objects.get(pk=self.kwargs.get('pk'))
+        notification_received = Notification.objects.filter(student=student, job=job, directed_to_student=False).exists()
+        context['notification_received'] = notification_received
+
+        return context
+
 class JobUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Job
     template_name = 'job/job_edit.html'
