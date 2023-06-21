@@ -1,8 +1,12 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
-<h1>Delete post</h1>
-<form action="" method="post">{% csrf_token %}
-    <p>Are you sure you want to delete "{{ user.username }}"?</p>
-    <input type="submit" value="Confirm">
-</form>
+
+<div class="container d-flex align-items-center justify-content-center vh-100 text-center">
+    <form action="" method="post">{% csrf_token %}
+        <h3>Você realmente quer deletar a sua conta {{ user.username }}?</h3>
+        <button class="btn btn-primary ml-2" type="submit">Deletar</button>
+    </form>
+</div>
+
 {% endblock content %}
