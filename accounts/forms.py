@@ -41,6 +41,10 @@ class CustomOngCreationForm(UserCreationForm):
         return user
 
 class CommentForm(forms.ModelForm):
+
+    comment = forms.CharField(widget=forms.Textarea(), label='Comentário')
+    stars = forms.IntegerField(widget=forms.HiddenInput(), initial='0')
+
     class Meta:
         model = Comment
         fields = ('stars', 'comment',)
