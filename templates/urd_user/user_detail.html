@@ -1,27 +1,197 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div>
-<h2>{{ object.username }}</h2>
-<p>Email: {{ object.email }}</p>
-{% if object.is_student %}
-    <p>Universidade: {{ object.student.university }}</p>
-    <p>Matrícula: {{ object.student.registration }}</p>
-{% else %}
-    <p>CNPJ: {{ object.ong.cnpj }}</p>
-{% endif %}
-<p>Descrição/Quem sou eu?: {{ object.description }}</p>
-<p>Soma das avaliações: {{ object.sum_avaliation }}</p>
-<p>Média das avaliações: {{ object.mean_avaliation }}</p>
-<p>Total de avaliações: {{ object.total_avaliation }}</p>
-</div>
-<h2>Comentários</h2>
-{% for comment in object.rated_user.all %}
-    <h4>Comentário</h4>
-    <p> Avaliado: {{ comment.user.username }} </p>
-    <p> Comentário: {{ comment.comment }} </p>
-    <p> Avaliador: {{ comment.author.username }} </p>
-{% endfor %}
+
+<section class="h-100 gradient-custom-2">
+    <div class="container py-1 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-lg-12 col-xl-12">
+                <div class="card">
+                    <div class="rounded-top text-white d-flex flex-row" style="background-image: url('{{ object.cover.url}}'); height:200px;">
+                        <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+                            <img src="{{ object.perfil.url}}"
+                                 alt="Imagem de Perfil" class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; z-index: 1">
+                            {% if user == object %}
+                                {% if user.is_student %}
+                                    <a href="{% url 'student_edit' user.pk %}" style="color: currentColor; cursor: pointer; opacity: 0.5; text-decoration: none;">
+                                        <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark" style="z-index: 1;">
+                                            Editar Perfil
+                                        </button>
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'ong_edit' user.pk %}" style="color: currentColor; cursor: pointer; opacity: 0.5; text-decoration: none;">
+                                        <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark" style="z-index: 1;">
+                                            Editar Perfil
+                                        </button>
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="ms-3" style="margin-top: 130px;">
+                            <h4 style="background-color: rgba(0, 0, 0, 0.7);">{{ object.username }}</h4>
+                        </div>
+                    </div>
+                    <div class="p-4 text-black" style="background-color: #f8f9fa;">
+                        <div class="d-flex justify-content-end text-center py-1">
+                            <div class="px-3">
+                                <p class="mb-1 h5">{{ object.mean_avaliation }}</p>
+                                <p class="small text-muted mb-0">Rating</p>
+                            </div>
+                            {% if object.is_student %}
+                                <div>
+                                    <p class="mb-1 h5">{{ object.student.university }}</p>
+                                    <p class="small text-muted mb-0">Universidade</p>
+                                </div>
+                                <div>
+                                    <p class="mb-1 h5">{{ object.student.registration }}</p>
+                                    <p class="small text-muted mb-0">Matrícula</p>
+                                </div>
+                            {% else %}
+                                <div>
+                                    <p class="mb-1 h5">{{ object.ong.cnpj }}</p>
+                                    <p class="small text-muted mb-0">CNPJ</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="card-body p-4 text-black">
+                        <div class="mb-5">
+                            <p class="lead fw-normal mb-1">Quem sou eu?</p>
+                            <div class="p-4" style="background-color: #f8f9fa;">
+                                <p class="font-italic mb-1">{{ object.description }}</p>
+                            </div>
+                        </div>
+                        <!-- Inicio Carrosel Projetos(ONG) -->
+                        {% if object.is_ong %}
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <p class="lead fw-normal mb-0">Projetos</p>
+                                <!-- <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p> -->
+                            </div>
+                            <!-- Carrosel Projetos -->
+                            <div id="carouselProjeto" class="carousel carousel-dark slide text-center" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    {% for project in object.ong.project_set.all %}
+                                        <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}" data-bs-interval="10000">
+                                            <div class="col mb-4 d-flex justify-content-center">
+                                                <div class="card" style="width: 18rem;">
+                                                    <img src="{{ project.cover.url}}" class="card-img-top" alt="..." style="height: 14rem;">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title">{{ project.title }}</h4>
+                                                        por {{ project.ong }}
+                                                        <p class="card-text"> {{ project.description }} {{ project.location }}</p>
+                                                        <a href="{% url 'project_detail' project.pk %}" class="btn btn-primary">Ver Projeto</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% empty %}
+                                        <div class="carousel-item active" data-bs-interval="10000">
+                                            Nenhum Projeto Cadastrado
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                {% if object.ong.project_set.all|length != 0 %}
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselProjeto" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselProjeto" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                        <!-- Fim Carrosel Projetos  -->
+                        <!-- Inicio Carrosel Trabalho(Estudante) -->
+                        {% if object.is_student %}
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <p class="lead fw-normal mb-0">Trabalho Já Realizados</p>
+                                <!-- <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p> -->
+                            </div>
+                            <!-- Carrosel Trabalhos -->
+                            <div id="carouselTrabalho" class="carousel carousel-dark slide text-center" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    {% for job in object.student.job_set.all %}
+                                        <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}" data-bs-interval="10000">
+                                            <div class="col mb-4 d-flex justify-content-center">
+                                                <div class="card" style="width: 18rem;">
+                                                    <img src="{{ job.cover.url}}" class="card-img-top" alt="..." style="height: 14rem;">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title">{{ job.title }}</h4>
+                                                        por {{ job.project.ong }}
+                                                        <p class="card-text"> {{ job.description }} {{ job.location }}</p>
+                                                        <a href="{% url 'job_detail' job.pk %}" class="btn btn-primary">Ver Trabalho</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% empty %}
+                                        <div class="carousel-item active" data-bs-interval="10000">
+                                            Nenhum Trabalho Realizado
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                {% if object.student.job_set.all|length != 0 %}
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselTrabalho" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselTrabalho" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                        <!-- Fim Carrosel Trabalho  -->
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <p class="lead fw-normal mb-0">Comentários</p>
+                        </div>
+                        <!-- Carrosel Comentários -->
+                        <div id="carouselExampleDark" class="carousel carousel-dark slide text-center" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                {% for comment in object.rated_user.all %}
+                                    <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}" data-bs-interval="10000">
+                                        <img class="rounded-circle shadow-1-strong mb-4" src="{{ comment.author.perfil.url}}" alt="avatar" style="height :150px; width: 150px;" />
+                                        <div class="row d-flex justify-content-center">
+                                            <div class="col-lg-8">
+                                                <h5 class="mb-3">{{ comment.author.username }}</h5>
+                                                    <p class="text-muted">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><path d="M0 216C0 149.7 53.7 96 120 96h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V320 288 216zm256 0c0-66.3 53.7-120 120-120h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H320c-35.3 0-64-28.7-64-64V320 288 216z"/></svg>
+                                                        {{ comment.comment }}
+                                                    </p>
+                                            </div>
+                                        </div>
+                                        <div class="rating">
+                                            {% for i in '12345'|make_list %}
+                                                <span class="fa fa-star{% if forloop.counter > comment.stars %}-o{% endif %}" style="color: gold; font-size: 24px;"></span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% empty %}
+                                    <div class="carousel-item active" data-bs-interval="10000">
+                                        Nenhum Comentário Cadastrado
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            {% if object.rated_user.all|length != 0 %}
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 {% if user != object %}
     <h4>Add a comment</h4>
@@ -31,8 +201,4 @@
     </form>
 {% endif %}
 
-<h1>FOTO COVER</h1>
-<img src="{{ object.cover.url}}">
-<h1>FOTO PERFIL</h1>
-<img src="{{ object.perfil.url}}">
 {% endblock content %}

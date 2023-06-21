@@ -66,3 +66,8 @@ nav, footer {
 .nav-link:hover, .nav-link:focus, .nav-link:active, .navbar-brand:hover, .navbar-brand:focus, .navbar-brand:active {
     color: var(--nav-link-hover-color);
 }
+
+.rating span {
+    color: gold; /* Change the color of the stars */
+    font-size: 24px; /* Change the size of the stars */
+}

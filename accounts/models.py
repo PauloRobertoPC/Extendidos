@@ -30,7 +30,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     @property
     def mean_avaliation(self):
-        return self.sum_avaliation/max(self.total_avaliation, 1)
+        return round(self.sum_avaliation/max(self.total_avaliation, 1), 2)
 
     def __str__(self):
         return self.username
