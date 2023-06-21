@@ -87,13 +87,17 @@ class StudentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         form.fields['registration'] = forms.CharField(
             widget=forms.TextInput,
             initial=self.object.student.registration,
-            label='Registration'
+            label='Matrícula'
         )
         form.fields['university'] = forms.ChoiceField(
             choices=universities,
             initial=self.object.student.university,
-            label='University'
+            label='Universidade'
         )
+        form.fields['cover'].label = "Foto de Capa"
+        form.fields['perfil'].label = "Foto de Perfil"
+        form.fields['username'].label = "Nome"
+        form.fields['description'].label = "Descrição"
         return form
 
     def form_valid(self, form):
@@ -124,6 +128,10 @@ class OngUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             initial=self.object.ong.cnpj,
             label='CNPJ'
         )
+        form.fields['cover'].label = "Foto de Capa"
+        form.fields['perfil'].label = "Foto de Perfil"
+        form.fields['username'].label = "Nome"
+        form.fields['description'].label = "Descrição"
         return form
 
     def form_valid(self, form):
