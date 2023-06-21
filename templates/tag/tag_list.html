@@ -1,9 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
-{% for tag in tag_list %}
-<div class="post-entry">
-    <p>{{ tag.tag_name }}</p>
-    <p><a href="{% url 'tag_delete' tag.pk %}">- Deletar Tag</a></p>
+<div class="container d-flex align-items-center justify-content-center vh-100 text-center">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Tag</th>
+                <th scope="col">Deletar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tag in tag_list %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ tag.tag_name }}</td>
+                <td>
+                    <a href="{% url 'tag_delete' tag.pk %}">
+                        <button class="btn btn-primary ml-2" type="submit">Deletar Tag</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
-{% endfor %}
 {% endblock content %}

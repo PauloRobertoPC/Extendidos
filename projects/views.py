@@ -298,6 +298,11 @@ class TagCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     fields = ["tag_name"]
     success_url = reverse_lazy("tag_list")
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['tag_name'].label = "Nome da Tag"
+        return form
+
     def test_func(self):
         return True
 
