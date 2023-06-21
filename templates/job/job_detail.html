@@ -11,6 +11,7 @@
     <p>{{ job.job_end }}</p>
     {% if user.is_ong and user.ong == job.project.ong%} 
         <p><a href="{% url 'job_edit' job.pk %}"> Editar Trabalho  </a></p>
+        <p><a href="{% url 'job_delete' job.pk %}"> Deletar Trabalho  </a></p>
     {% endif %}
     {% if user.is_student and user.student not in job.student.all and job.available_vacancies > 0 and not notification_received %}
         <h2><a href="{% url 'job_apply' job.pk %}">Aplicar a vaga.</a></h2>

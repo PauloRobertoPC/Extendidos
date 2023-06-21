@@ -17,6 +17,9 @@ class ProjectsCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         form = super().get_form(form_class)
         tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all())
         form.fields['tags'] = tags
+        form.fields['title'].label = "Título"
+        form.fields['location'].label = "Localização"
+        form.fields['description'].label = "Descrição"
         return form
 
     def form_valid(self, form):
@@ -92,6 +95,13 @@ class JobCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         form = super().get_form(form_class)
         tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all())
         form.fields['tags'] = tags
+        form.fields['title'].label = "Título"
+        form.fields['location'].label = "Localização"
+        form.fields['description'].label = "Descrição"
+        form.fields['available_vacancies'].label = "Total de Vagas Disponíveis"
+        form.fields['is_active'].label = "Está Acontecendo"
+        form.fields['job_begin'].label = "Data de Início"
+        form.fields['job_end'].label = "Data Final"
         return form
 
     def form_valid(self, form):
@@ -158,7 +168,7 @@ class JobDetailView(LoginRequiredMixin, DetailView):
 class JobUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Job
     template_name = 'job/job_edit.html'
-    fields = ['title', 'description', 'location', 'available_vacancies', 'is_active', 'job_begin', 'job_end', 'cover']
+    fields = ['title', 'description', 'cover', 'location', 'available_vacancies', 'is_active', 'job_begin', 'job_end']
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
@@ -167,6 +177,14 @@ class JobUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         selected_tags = job.tag_set.all()
         form.fields['tags'] = tags
         form.fields['tags'].initial = selected_tags
+        form.fields['title'].label = "Título"
+        form.fields['location'].label = "Localização"
+        form.fields['description'].label = "Descrição"
+        form.fields['available_vacancies'].label = "Total de Vagas Disponíveis"
+        form.fields['is_active'].label = "Está Acontecendo"
+        form.fields['job_begin'].label = "Data de Início"
+        form.fields['job_end'].label = "Data Final"
+        form.fields['cover'].label = "Foto de Capa"
         return form
 
     def form_valid(self, form):
@@ -183,6 +201,15 @@ class JobUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('job_detail', kwargs={'pk': self.object.pk})
+
+class JobDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Job
+    template_name = "job/job_delete.html"
+    success_url = reverse_lazy("home")
+
+    def test_func(self):
+        job = self.get_object()
+        return job.project.ong.user == self.request.user
 
 class JobApplyView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Notification
