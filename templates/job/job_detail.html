@@ -1,28 +1,143 @@
 {% extends "base.html" %}
 {% block content %}
-<div>
-    <h1> Job </h1>
-    <h1>{{ job.title }}</h1>
-    <img src="{{ job.cover.url}}">
-    <p>{{ job.description }}</p>
-    <p>{{ job.location }}</p>
-    <p>{{ job.available_vacancies }}</p>
-    <p>{{ job.job_begin }}</p>
-    <p>{{ job.job_end }}</p>
-    {% if user.is_ong and user.ong == job.project.ong%} 
-        <p><a href="{% url 'job_edit' job.pk %}"> Editar Trabalho  </a></p>
-        <p><a href="{% url 'job_delete' job.pk %}"> Deletar Trabalho  </a></p>
-    {% endif %}
-    {% if user.is_student and user.student not in job.student.all and job.available_vacancies > 0 and not notification_received %}
-        <h2><a href="{% url 'job_apply' job.pk %}">Aplicar a vaga.</a></h2>
-    {% endif %}
-    <h1>Estudantes Voluntários</h1>
-    <h3>Mostra todos que estão cadastrados</h3>
-    {% for student in job.student.all %}
-        <p><a href="{% url 'user_detail' student.user.pk %}"> {{ student.user.username }} </a></p>
-        {% if user.is_ong and user.ong == job.project.ong%} 
-            <p><a href="{% url 'dismiss_user' job.pk student.user.pk %}"> Dispensar Estudante </a></p>
-        {% endif %}
-    {% endfor %}
-</div>
+
+<section class="h-100 gradient-custom-2">
+    <div class="container py-1 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-lg-12 col-xl-12">
+                <div class="card">
+                    <div class="rounded-top text-white d-flex flex-row" style="background-image: url('{{ job.cover.url}}'); height:200px;">
+                    </div>
+                    <div class="p-4 text-black" style="background-color: #f8f9fa;">
+                        <div class="container">
+                            <div class="row text-center">
+                                <div class="col">
+                                    <p class="mb-1 h5">{{ job.project.ong }}</p>
+                                    <p class="small text-muted mb-0">ONG</p>
+                                </div>
+                                <div class="col">
+                                    <p class="mb-1 h5">{{ job.project}}</p>
+                                    <p class="small text-muted mb-0">Projeto</p>
+                                </div>
+                                <div class="col">
+                                    <p class="mb-1 h5">{{ job.job_begin }}</p>
+                                    <p class="small text-muted mb-0">Início</p>
+                                </div>
+                                <div class="col">
+                                    <p class="mb-1 h5">{{ job.job_end }}</p>
+                                    <p class="small text-muted mb-0">Fim</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container py-4">
+                            <div class="row text-center">
+                                <div class="col">
+                                    <p class="mb-1 h5">{{ job.title}}</p>
+                                    <p class="small text-muted mb-0">Trabalho</p>
+                                </div>
+                                <div class="col">
+                                    <p class="mb-1 h5">{{ job.student.all|length }}</p>
+                                    <p class="small text-muted mb-0">Voluntários</p>
+                                </div>
+                                <div class="col">
+                                    <p class="mb-1 h5">{{ job.available_vacancies }}</p>
+                                    <p class="small text-muted mb-0">Vagas Disponíveis</p>
+                                </div>
+                                <div class="col">
+                                    <p class="mb-1 h5">{{ job.location }}</p>
+                                    <p class="small text-muted mb-0">Localização</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% if user.is_student and user.student not in job.student.all and job.available_vacancies > 0 and not notification_received %}
+                            <div class="container py-4">
+                                <div class="row text-center">
+                                    <div class="col">
+                                            <a href="{% url 'job_apply' job.pk %}">
+                                                <button class="btn btn-primary" type="button">
+                                                    <h5>
+                                                        Aplicar a vaga
+                                                    </h5>
+                                                </button>
+                                            </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if user.is_ong and user.ong == job.project.ong %} 
+                            <div class="container py-4">
+                                <div class="row text-center">
+                                    <div class="col">
+                                        <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Ações
+                                        </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                <li><a class="dropdown-item" href="{% url 'job_edit' job.pk %}">Editar Trabalho</a></li>
+                                                <li><a class="dropdown-item" href="{% url 'job_delete' job.pk %}">Deletar Trabalho</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-body p-4 text-black">
+                        <div class="mb-5">
+                            <p class="lead fw-normal mb-1">Descrição</p>
+                            <div class="p-4" style="background-color: #f8f9fa;">
+                                <p class="font-italic mb-1">{{ job.description }}</p>
+                            </div>
+                        </div>
+                        <!-- Inicio Carrosel Trabalho(Estudante) -->
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <p class="lead fw-normal mb-0">Voluntários</p>
+                            <!-- <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p> -->
+                        </div>
+                        <!-- Carrosel Comentários -->
+                        <div id="carouselExampleDark" class="carousel carousel-dark slide text-center" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                {% for student  in job.student.all %}
+                                <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}" data-bs-interval="10000">
+                                    <img class="rounded-circle shadow-1-strong mb-4" src="{{ student.user.perfil.url}}" alt="avatar" style="height :150px; width: 150px;" />
+                                    <div class="row d-flex justify-content-center">
+                                        <div class="col-lg-8">
+                                            <a href="{% url 'user_detail' student.user.pk %}"><h5 class="mb-3">{{ student.user.username }}</h5></a>
+                                            <p class="text-muted">
+                                            {{ student.user.description }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {% if user.is_ong and user.ong == job.project.ong%} 
+                                        <a href="{% url 'dismiss_user' job.pk student.user.pk %}">
+                                            <button class="btn btn-primary" type="button">
+                                                Dispensar Estudante
+                                            </button>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                                {% empty %}
+                                <div class="carousel-item active" data-bs-interval="10000">
+                                    Nenhum Voluntário Cadastrado
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% if job.student.all|length != 0 %}
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {% endblock content %}
