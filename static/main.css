@@ -40,7 +40,7 @@ textarea {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* Bootstrap colors override */
+/* Bootstrap override */
 .btn {
     color: var(--primary-color);
     border-color: var(--primary-color);
@@ -70,4 +70,14 @@ textarea {
 }
 .nav-link:hover, .nav-link:focus, .nav-link:active, .navbar-brand:hover, .navbar-brand:focus, .navbar-brand:active {
     color: var(--nav-link-hover-color);
+}
+
+.navbar-toggler-icon {
+    background-image: none;
+    color: var(--nav-link-color);
+}
+
+.navbar-toggler-icon::before {
+    font-family: FontAwesome;
+    content: "\f0c9";
 }
