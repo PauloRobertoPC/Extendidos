@@ -17,6 +17,11 @@ nav, footer {
     background-color: var(--primary-color);
 }
 
+textarea {
+    resize: none;
+    max-height: 8em;
+}
+
 .navbar-brand {
     font-family: 'Satisfy';
     font-size: 28px;
