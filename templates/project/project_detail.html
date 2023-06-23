@@ -1,18 +1,97 @@
 {% extends "base.html" %}
 {% block content %}
-<div>
-    <h1> PROJETO </h1>
-    <p>{{ project.title }}</p>
-    <img src="{{ project.cover.url}}">
-    <p>{{ project.description }}</p>
-    <p>{{ project.location }}</p>
-    {% if user.is_authenticated %}
-        {% if user.is_ong %}
-         <p><a href="{% url 'project_edit' project.pk %}">+ Edit Project</a></p>
-         <p><a href="{% url 'project_delete' project.pk %}">- Delete Project</a></p>
-         <p><a href="{% url 'job_create' project.pk %}">- Add Job</a></p>
-         {% endif %}
-         <p><a href="{% url 'job_list' project.pk %}">Ver Trabalhos</a></p>
-    {% endif %}
-</div>
+
+<section class="h-100 gradient-custom-2">
+    <div class="container py-1 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-lg-12 col-xl-12">
+                <div class="card">
+                    <div class="rounded-top text-white d-flex flex-row" style="background-image: url('{{ project.cover.url}}'); height:200px;">
+                    </div>
+                    <div class="p-4 text-black" style="background-color: #f8f9fa;">
+                        <div class="container">
+                            <div class="row text-center">
+                                <div class="col">
+                                    <p class="mb-1 h5">{{ project.title}}</p>
+                                    <p class="small text-muted mb-0">Projeto</p>
+                                </div>
+                                {% if user == project.ong.user %}
+                                    <div class="col">
+                                        <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Ações   
+                                        </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                <li><a class="dropdown-item" href="{% url 'job_create' project.pk %}">Adicionar Trabalho</a></li>
+                                                <li><a class="dropdown-item" href="{% url 'project_edit' project.pk %}">Editar Projeto</a></li>
+                                                <li><a class="dropdown-item" href="{% url 'project_delete' project.pk %}">Deletar Projeto</a></li>
+                                            </ul>
+                                        </div>
+                                        <p class="small text-muted mb-0">CRUD</p>
+                                    </div>
+                                {% endif %}
+                                <div class="col">
+                                    <p class="mb-1 h5">{{ project.job_set.all|length }}</p>
+                                    <p class="small text-muted mb-0">Trabalhos</p>
+                                </div>
+                                <div class="col">
+                                    <p class="mb-1 h5">{{ project.location }}</p>
+                                    <p class="small text-muted mb-0">Localização</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-4 text-black">
+                        <div class="mb-5">
+                            <p class="lead fw-normal mb-1">Descrição</p>
+                            <div class="p-4" style="background-color: #f8f9fa;">
+                                <p class="font-italic mb-1">{{ project.description }}</p>
+                            </div>
+                        </div>
+                        <!-- Inicio Carrosel Trabalho(Estudante) -->
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <p class="lead fw-normal mb-0">Trabalhos do Projeto</p>
+                            <!-- <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p> -->
+                        </div>
+                        <!-- Carrosel Trabalhos -->
+                        <div id="carouselTrabalho" class="carousel carousel-dark slide text-center" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                {% for job in project.job_set.all %}
+                                <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}" data-bs-interval="10000">
+                                    <div class="col mb-4 d-flex justify-content-center">
+                                        <div class="card" style="width: 18rem;">
+                                            <img src="{{ job.cover.url}}" class="card-img-top" alt="..." style="height: 14rem;">
+                                            <div class="card-body">
+                                                <h4 class="card-title">{{ job.title }}</h4>
+                                                por {{ job.project.ong }}
+                                                <p class="card-text"> {{ job.description }} {{ job.location }}</p>
+                                                <a href="{% url 'job_detail' job.pk %}" class="btn btn-primary">Ver Trabalho</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <div class="carousel-item active" data-bs-interval="10000">
+                                    Nenhum Trabalho Cadastrado
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% if project.job_set.all|length != 0 %}
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselTrabalho" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselTrabalho" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        {% endif %}
+                        <!-- Fim Carrosel Trabalho  -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock content %}
