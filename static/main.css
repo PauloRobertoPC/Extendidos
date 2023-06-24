@@ -40,6 +40,16 @@ textarea {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+.calendar-icon-begin, .calendar-icon-end {
+    font-size: 0.95rem !important;
+}
+.calendar-icon-begin {
+    color: #00e500;
+}
+.calendar-icon-end {
+    color: #e50000;
+}
+
 /* Bootstrap override */
 .btn {
     color: var(--primary-color);
