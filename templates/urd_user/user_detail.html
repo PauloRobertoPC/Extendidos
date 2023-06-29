@@ -3,10 +3,10 @@
 {% block content %}
 
 <style>
-    .rating-stars {
-        direction: rtl;
-        unicode-bidi: bidi-override;
-    }
+.rating-stars {
+    direction: rtl;
+    unicode-bidi: bidi-override;
+}
 
     .rating-stars > input {
         display: none;
@@ -94,14 +94,19 @@
                             <div class="carousel-inner">
                                 {% for project in object.ong.project_set.all %}
                                 <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}" data-bs-interval="10000">
-                                    <div class="col mb-4 d-flex justify-content-center">
+                                    <div class="col my-3 d-flex justify-content-center">
                                         <div class="card" style="width: 18rem;">
-                                            <img src="{{ project.cover.url}}" class="card-img-top" alt="Foto de capa do projeto" style="height: 14rem;">
-                                            <div class="card-body">
+                                            <img src="{{ project.cover.url}}" class="card-img-top" alt='Projeto "{{ project.title }}"' style="height: 14rem;">
+                                            <div class="card-header">
                                                 <h4 class="card-title">{{ project.title }}</h4>
-                                                por {{ project.ong }}
-                                                <p class="card-text"> {{ project.description }} {{ project.location }}</p>
-                                                <a href="{% url 'project_detail' project.pk %}" class="btn btn-primary">Ver Projeto</a>
+                                                <span>por {{ project.ong }}</span>
+                                            </div>
+                                            <div class="card-body">
+                                                <p class="card-text">{{ project.description|truncatechars:100 }}</p>
+                                            </div>
+                                            <div class="card-footer d-flex justify-content-between align-items-center">
+                                                <p class="mb-0"><i class="fa fa-map-marker" aria-hidden="true"></i> {{ project.location }}</p>
+                                                <a href="{% url 'project_detail' project.pk %}" class="btn btn-primary">Ver projeto</a>
                                             </div>
                                         </div>
                                     </div>
@@ -136,14 +141,31 @@
                             <div class="carousel-inner">
                                 {% for job in object.student.job_set.all %}
                                 <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}" data-bs-interval="10000">
-                                    <div class="col mb-4 d-flex justify-content-center">
+
+                                    <div class="col my-3 d-flex justify-content-center">
                                         <div class="card" style="width: 18rem;">
                                             <img src="{{ job.cover.url}}" class="card-img-top" alt="Capa do trabalho" style="height: 14rem;">
-                                            <div class="card-body">
+                                            <div class="card-header">
                                                 <h4 class="card-title">{{ job.title }}</h4>
-                                                por {{ job.project.ong }}
-                                                <p class="card-text"> {{ job.description }} {{ job.location }}</p>
-                                                <a href="{% url 'job_detail' job.pk %}" class="btn btn-primary">Ver Trabalho</a>
+                                                <h6>por {{ job.project.ong }}</h6>
+                                                <span class="text-black-50">Nº de vagas: {{ job.available_vacancies }}</span>
+                                            </div>
+                                            <div class="card-body">
+                                                <p class="card-text">{{ job.description|truncatechars:100 }}</p>
+                                            </div>
+                                            <div class="card-footer">
+                                                <div class="row mb-2">
+                                                    <div class="col-3 my-auto">
+                                                        <p class="mb-0"><i class="fa fa-map-marker" aria-hidden="true"></i> {{ job.location }}</p>
+                                                    </div>
+                                                    <div class="col">
+                                                        <i class="fa fa-calendar d-block my-1 calendar-icon-begin" aria-hidden="true"> {{ job.job_begin }}</i>
+                                                        <i class="fa fa-calendar d-block my-1 calendar-icon-end" aria-hidden="true"> {{ job.job_end }}</i>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <a href="{% url 'job_detail' job.pk %}" class="btn btn-primary col-8 mx-auto">Ver trabalho</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -209,28 +231,28 @@
                             {% endif %}
                         </div>
                         {% if user != object %}
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <p class="lead fw-normal mb-0">Comentar</p>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <p class="lead fw-normal mb-0">Comentar</p>
+                        </div>
+                        <div class="text-center">
+                            Nota
+                            <div class="rating-stars">
+                                <input type="radio" name="rating" id="rating5" value="5" />
+                                <label for="rating5">&#9733;</label>
+                                <input type="radio" name="rating" id="rating4" value="4" />
+                                <label for="rating4">&#9733;</label>
+                                <input type="radio" name="rating" id="rating3" value="3" />
+                                <label for="rating3">&#9733;</label>
+                                <input type="radio" name="rating" id="rating2" value="2" />
+                                <label for="rating2">&#9733;</label>
+                                <input type="radio" name="rating" id="rating1" value="1" />
+                                <label for="rating1">&#9733;</label>
                             </div>
-                            <div class="text-center">
-                                Nota
-                                <div class="rating-stars">
-                                    <input type="radio" name="rating" id="rating5" value="5" />
-                                    <label for="rating5">&#9733;</label>
-                                    <input type="radio" name="rating" id="rating4" value="4" />
-                                    <label for="rating4">&#9733;</label>
-                                    <input type="radio" name="rating" id="rating3" value="3" />
-                                    <label for="rating3">&#9733;</label>
-                                    <input type="radio" name="rating" id="rating2" value="2" />
-                                    <label for="rating2">&#9733;</label>
-                                    <input type="radio" name="rating" id="rating1" value="1" />
-                                    <label for="rating1">&#9733;</label>
-                                </div>
-                                <form action="" method="post">{% csrf_token %}
-                                    {{ form|crispy }}
-                                    <button class="btn btn-primary ml-2" type="submit">Comentar</button>
-                                </form>
-                            </div>
+                            <form action="" method="post">{% csrf_token %}
+                                {{ form|crispy }}
+                                <button class="btn btn-primary ml-2" type="submit">Comentar</button>
+                            </form>
+                        </div>
                         {% endif %}
                     </div>
                 </div>
@@ -242,12 +264,12 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  $(document).ready(function() {
-    $('.rating-stars label').click(function() {
-      $(this).prevAll('input').prop('checked', true);
-       document.getElementById("id_stars").value = this.control.attributes.value.value;
+    $(document).ready(function() {
+        $('.rating-stars label').click(function() {
+            $(this).prevAll('input').prop('checked', true);
+            document.getElementById("id_stars").value = this.control.attributes.value.value;
+        });
     });
-  });
 </script>
 
 {% endblock content %}
