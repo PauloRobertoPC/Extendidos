@@ -125,17 +125,17 @@
         {% if not user.is_authenticated %} 
 
         <!-- Notification/Toast -->
-        <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center w-100">
-            <div class="toast align-items-right" id="notificationToast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="notificationToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
-                    <strong class="me-auto">Notification</strong>
+                    <strong class="me-auto">Resetar senha</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
                 <div class="toast-body">
-                    Senha resetada! Cheque o seu email para informações adicionais.
+                    Cheque o seu email para informações adicionais de como resetar a sua senha.
                 </div>
             </div>
-        </div>
+        </div>    
 
         <!-- Login Modal -->
         <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -436,7 +436,8 @@
                 $('#resetModal').modal('hide');
 
                 // Show the Bootstrap toast notification
-                var toast = new bootstrap.Toast(document.getElementById('notificationToast'));
+                const notificationToast = document.getElementById('notificationToast');
+                const toast = bootstrap.Toast.getOrCreateInstance(notificationToast);
                 toast.show();
 
                 // Perform the server-side action via AJAX
