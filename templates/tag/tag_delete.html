@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-<div class="container d-flex align-items-center justify-content-center vh-100 text-center">
+<div class="container d-flex align-items-center justify-content-center text-center min-h-inherit">
     <form action="" method="post">{% csrf_token %}
         <h3>Você realmente quer deletar a tag "{{ tag.tag_name }}"?</h3>
         <button class="btn btn-primary ml-2" type="submit">Deletar</button>
