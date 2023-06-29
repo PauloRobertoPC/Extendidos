@@ -60,7 +60,7 @@
                                 <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}" data-bs-interval="10000">
                                     <div class="col mb-4 d-flex justify-content-center">
                                         <div class="card" style="width: 18rem;">
-                                            <img src="{{ job.cover.url}}" class="card-img-top" alt="..." style="height: 14rem;">
+                                            <img src="{{ job.cover.url}}" class="card-img-top" alt="Capa do trabalho" style="height: 14rem;">
                                             <div class="card-body">
                                                 <h4 class="card-title">{{ job.title }}</h4>
                                                 por {{ job.project.ong }}
@@ -79,11 +79,11 @@
                             {% if project.job_set.all|length != 0 %}
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselTrabalho" data-bs-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
+                                <span class="visually-hidden">Anterior</span>
                             </button>
                             <button class="carousel-control-next" type="button" data-bs-target="#carouselTrabalho" data-bs-slide="next">
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
+                                <span class="visually-hidden">Próximo</span>
                             </button>
                         </div>
                         {% endif %}
